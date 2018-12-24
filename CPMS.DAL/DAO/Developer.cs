@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CPMS.DAL.DAO
 {
-    class Developer : Person
+    public class Developer : Person
     {
         [Required]
         [StringLength(50)]

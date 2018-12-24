@@ -8,7 +8,7 @@ namespace CPMS.DAL.DAO
 {
 
     [Table("Address", Schema = "cpms")]
-    class Address
+    public class Address
     {
         [Key]
         public int ID { get; set; }

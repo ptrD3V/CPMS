@@ -7,7 +7,7 @@ using System.Text;
 namespace CPMS.DAL.DAO
 {
     [Table("Project", Schema = "cpms")]
-    class Project
+    public class Project
     {
         [Key]
         public int ID { get; set; }

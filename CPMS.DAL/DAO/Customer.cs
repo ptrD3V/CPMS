@@ -6,7 +6,7 @@ using System.Text;
 namespace CPMS.DAL.DAO
 {
 
-    class Customer : Person
+    public class Customer : Person
     {
         public virtual BillingInfo BillingInfo { get; set; }
     }
