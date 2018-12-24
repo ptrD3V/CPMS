@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace CPMS.DAL.DAO
 {
+    [Table("Person", Schema = "cpms")]
     public abstract class Person
     {
         [Key]
