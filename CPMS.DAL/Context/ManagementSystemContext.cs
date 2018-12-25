@@ -1,7 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using CPMS.DAL.DAO;
 
 namespace CPMS.DAL.Context
@@ -22,5 +19,5 @@ namespace CPMS.DAL.Context
             base(connectionString)
         {
         }
-     }
+    }
 }

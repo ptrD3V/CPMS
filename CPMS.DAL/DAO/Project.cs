@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace CPMS.DAL.DAO
 {
-    [Table("Project", Schema = "cpms")]
+    [Table("Projects", Schema = "cpms")]
     public class Project
     {
-        [Key]
         public int ID { get; set; }
 
         [Required]
+        [StringLength(50)]
         public string Name { get; set; }
 
         public string Description { get; set; }

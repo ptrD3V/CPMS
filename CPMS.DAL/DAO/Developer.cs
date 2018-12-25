@@ -1,12 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CPMS.DAL.DAO
 {
-    public class Developer : Person
+    [Table("Developers", Schema = "cpms")]
+    public class Developer
     {
+        public int ID { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        public string FirstName { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        public string LastName { get; set; }
+
         [Required]
         [StringLength(50)]
         public string UserName { get; set; }

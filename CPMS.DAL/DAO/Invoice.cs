@@ -2,23 +2,23 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace CPMS.DAL.DAO
 {
-    [Table("Invoice", Schema = "cpms")]
+    [Table("Invoices", Schema = "cpms")]
     public class Invoice
     {
-        [Key]
         public int ID { get; set; }
 
         [Required]
         public int PersonID { get; set; }
 
         [Required]
+        [Range(0, int.MaxValue)]
         public decimal ManHour { get; set; }
 
         [Required]
+        [Range(0, int.MaxValue)]
         public decimal Time { get; set; }
 
         [Required]
