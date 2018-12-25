@@ -7,6 +7,31 @@
 *.userosscache
 *.sln.docstates
 
+*.csproj
+
+# ignore appsettings
+CPMS.APP/appsettings.Development.json
+CPMS.APP/appsettings.staging.json
+CPMS.APP/appsettings.production.json
+CPMS.APP/appsettings.json
+
+CPMS.GUI/appsettings.Development.json
+CPMS.GUI/appsettings.staging.json
+CPMS.GUI/appsettings.production.json
+CPMS.GUI/appsettings.json
+
+# ignore connectionstrings
+**/connectionstrings.Development.json
+**/connectionstrings.staging.json
+**/connectionstrings.production.json
+**/connectionstrings.json
+
+# ignore mailsettings
+**/mailsettings.development.json
+**/mailsettings.staging.json
+**/mailsettings.production.json
+**/mailsettings.json
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 

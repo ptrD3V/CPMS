@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace CPMS.DAL.DAO
 {
-    [Table("BillingInfo", Schema = "cpms")]
-    class BillingInfo
+    [Table("BillingInfos", Schema = "cpms")]
+    public class BillingInfo
     {
-        [Key]
         public int ID { get; set; }
 
         [Required]
