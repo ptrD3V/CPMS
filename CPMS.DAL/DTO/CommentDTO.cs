@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CPMS.DAL.DAO
+namespace CPMS.DAL.DTO
 {
     [Table("Comments", Schema = "cpms")]
-    public class Comment
+    public class CommentDTO
     {
         public int ID { get; set; }
 

@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CPMS.DAL.DAO
+namespace CPMS.DAL.DTO
 {
     [Table("Addresses", Schema = "cpms")]
-    public class Address
+    public class AddressDTO
     {
         public int ID { get; set; }
 

@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CPMS.DAL.Common;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CPMS.DAL.DAO
+namespace CPMS.DAL.DTO
 {
     [Table("Developers", Schema = "cpms")]
-    public class Developer
+    public class DeveloperDTO
     {
         public int ID { get; set; }
 
@@ -22,12 +23,5 @@ namespace CPMS.DAL.DAO
 
         [Required]
         public Role Role { get; set; }
-    }
-
-    public enum Role
-    {
-        Tester,
-        Developer,
-        Manager
     }
 }

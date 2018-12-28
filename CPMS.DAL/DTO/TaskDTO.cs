@@ -1,12 +1,13 @@
-﻿using System;
+﻿using CPMS.DAL.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CPMS.DAL.DAO
+namespace CPMS.DAL.DTO
 {
     [Table("Tasks", Schema = "cpms")]
-    public class Task
+    public class TaskDTO
     {
         public int ID { get; set; }
 
@@ -19,7 +20,7 @@ namespace CPMS.DAL.DAO
         public Points Point { get; set; }
 
         [Required]
-        public Type Type { get; set; }
+        public TaskType Type { get; set; }
 
         [Required]
         public int ProjectID { get; set; }
@@ -29,28 +30,6 @@ namespace CPMS.DAL.DAO
 
         public DateTime? CloseDate { get; set; }
 
-        public virtual ICollection<Comment> Comments { get; set; }
-    }
-
-    public enum Points
-    {
-        VeryLow = 1,
-        Low = 3,
-        Intermediate = 5,
-        Hard = 7,
-        VeryHard = 9
-    }
-
-    public enum Type
-    {
-        Feature,
-        Error
-    }
-
-    public enum Status
-    {
-        Active,
-        Delayed,
-        Done
+        public virtual ICollection<CommentDTO> Comments { get; set; }
     }
 }
