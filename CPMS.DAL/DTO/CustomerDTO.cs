@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CPMS.DAL.DAO
+namespace CPMS.DAL.DTO
 {
     [Table("Customers", Schema = "cpms")]
-    public class Customer
+    public class CustomerDTO
     {
         public int ID { get; set; }
 
@@ -16,6 +16,6 @@ namespace CPMS.DAL.DAO
         [StringLength(50)]
         public string LastName { get; set; }
 
-        public virtual BillingInfo BillingInfo { get; set; }
+        public virtual BillingInfoDTO BillingInfo { get; set; }
     }
 }

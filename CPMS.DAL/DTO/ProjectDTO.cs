@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CPMS.DAL.DAO
+namespace CPMS.DAL.DTO
 {
     [Table("Projects", Schema = "cpms")]
-    public class Project
+    public class ProjectDTO
     {
         public int ID { get; set; }
 
@@ -24,6 +24,6 @@ namespace CPMS.DAL.DAO
 
         public DateTime? EndDate { get; set; }
 
-        public virtual ICollection<Task> Tasks { get; set; }
+        public virtual ICollection<TaskDTO> Tasks { get; set; }
     }
 }
