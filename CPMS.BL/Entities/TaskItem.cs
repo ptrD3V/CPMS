@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CPMS.BL.Entities
 {
-    public class Task
+    public class TaskItem
     {
         public int ID { get; set; }
         public string Name { get; set; }

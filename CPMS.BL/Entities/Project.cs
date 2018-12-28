@@ -12,6 +12,6 @@ namespace CPMS.BL.Entities
         public int PersonID { get; set; }
         public DateTime StarDate { get; set; }
         public DateTime? EndDate { get; set; }
-        public ICollection<Task> Tasks { get; set; }
+        public ICollection<TaskItem> Tasks { get; set; }
     }
 }
