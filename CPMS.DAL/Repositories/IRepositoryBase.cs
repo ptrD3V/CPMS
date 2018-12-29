@@ -13,6 +13,6 @@ namespace CPMS.DAL.Repositories
         void Add(T item);
         void Update(T item);
         void Delete(T item);
-        Task SaveAsync();
+        void Save();
     }
 }

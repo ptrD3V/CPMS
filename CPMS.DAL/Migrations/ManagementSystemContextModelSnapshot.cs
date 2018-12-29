@@ -17,13 +17,11 @@ namespace CPMS.DAL.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                ;
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("CPMS.DAL.DAO.Address", b =>
+            modelBuilder.Entity("CPMS.DAL.DTO.AddressDTO", b =>
                 {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        ;
+                    b.Property<int>("ID");
 
                     b.Property<string>("City")
                         .IsRequired();
@@ -41,11 +39,11 @@ namespace CPMS.DAL.Migrations
                     b.ToTable("Addresses","cpms");
                 });
 
-            modelBuilder.Entity("CPMS.DAL.DAO.BillingInfo", b =>
+            modelBuilder.Entity("CPMS.DAL.DTO.BillingInfoDTO", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
-                        ;
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("AddressID");
 
@@ -71,13 +69,15 @@ namespace CPMS.DAL.Migrations
                     b.ToTable("BillingInfos","cpms");
                 });
 
-            modelBuilder.Entity("CPMS.DAL.DAO.Comment", b =>
+            modelBuilder.Entity("CPMS.DAL.DTO.CommentDTO", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
-                        ;
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("DeveloperID");
+
+                    b.Property<int?>("TaskDTOID");
 
                     b.Property<int>("TaskID");
 
@@ -85,16 +85,16 @@ namespace CPMS.DAL.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("TaskID");
+                    b.HasIndex("TaskDTOID");
 
                     b.ToTable("Comments","cpms");
                 });
 
-            modelBuilder.Entity("CPMS.DAL.DAO.Customer", b =>
+            modelBuilder.Entity("CPMS.DAL.DTO.CustomerDTO", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
-                        ;
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int?>("BillingInfoID");
 
@@ -113,11 +113,11 @@ namespace CPMS.DAL.Migrations
                     b.ToTable("Customers","cpms");
                 });
 
-            modelBuilder.Entity("CPMS.DAL.DAO.Developer", b =>
+            modelBuilder.Entity("CPMS.DAL.DTO.DeveloperDTO", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
-                        ;
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -138,11 +138,11 @@ namespace CPMS.DAL.Migrations
                     b.ToTable("Developers","cpms");
                 });
 
-            modelBuilder.Entity("CPMS.DAL.DAO.Invoice", b =>
+            modelBuilder.Entity("CPMS.DAL.DTO.InvoiceDTO", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
-                        ;
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("CreateDate");
 
@@ -157,11 +157,11 @@ namespace CPMS.DAL.Migrations
                     b.ToTable("Invoices","cpms");
                 });
 
-            modelBuilder.Entity("CPMS.DAL.DAO.Project", b =>
+            modelBuilder.Entity("CPMS.DAL.DTO.ProjectDTO", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
-                        ;
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description");
 
@@ -180,11 +180,11 @@ namespace CPMS.DAL.Migrations
                     b.ToTable("Projects","cpms");
                 });
 
-            modelBuilder.Entity("CPMS.DAL.DAO.Task", b =>
+            modelBuilder.Entity("CPMS.DAL.DTO.TaskDTO", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
-                        ;
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime?>("CloseDate");
 
@@ -195,6 +195,8 @@ namespace CPMS.DAL.Migrations
 
                     b.Property<int>("Point");
 
+                    b.Property<int?>("ProjectDTOID");
+
                     b.Property<int>("ProjectID");
 
                     b.Property<DateTime>("StarDate");
@@ -203,20 +205,22 @@ namespace CPMS.DAL.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("ProjectID");
+                    b.HasIndex("ProjectDTOID");
 
                     b.ToTable("Tasks","cpms");
                 });
 
-            modelBuilder.Entity("CPMS.DAL.DAO.Time", b =>
+            modelBuilder.Entity("CPMS.DAL.DTO.TimeDTO", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
-                        ;
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime?>("Close");
 
                     b.Property<string>("Description");
+
+                    b.Property<int?>("InvoiceDTOID");
 
                     b.Property<int?>("InvoiceID");
 
@@ -228,47 +232,45 @@ namespace CPMS.DAL.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("InvoiceID");
+                    b.HasIndex("InvoiceDTOID");
 
                     b.ToTable("Times","cpms");
                 });
 
-            modelBuilder.Entity("CPMS.DAL.DAO.BillingInfo", b =>
+            modelBuilder.Entity("CPMS.DAL.DTO.BillingInfoDTO", b =>
                 {
-                    b.HasOne("CPMS.DAL.DAO.Address", "Address")
+                    b.HasOne("CPMS.DAL.DTO.AddressDTO", "Address")
                         .WithMany()
                         .HasForeignKey("AddressID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("CPMS.DAL.DAO.Comment", b =>
+            modelBuilder.Entity("CPMS.DAL.DTO.CommentDTO", b =>
                 {
-                    b.HasOne("CPMS.DAL.DAO.Task")
+                    b.HasOne("CPMS.DAL.DTO.TaskDTO")
                         .WithMany("Comments")
-                        .HasForeignKey("TaskID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("TaskDTOID");
                 });
 
-            modelBuilder.Entity("CPMS.DAL.DAO.Customer", b =>
+            modelBuilder.Entity("CPMS.DAL.DTO.CustomerDTO", b =>
                 {
-                    b.HasOne("CPMS.DAL.DAO.BillingInfo", "BillingInfo")
+                    b.HasOne("CPMS.DAL.DTO.BillingInfoDTO", "BillingInfo")
                         .WithMany()
                         .HasForeignKey("BillingInfoID");
                 });
 
-            modelBuilder.Entity("CPMS.DAL.DAO.Task", b =>
+            modelBuilder.Entity("CPMS.DAL.DTO.TaskDTO", b =>
                 {
-                    b.HasOne("CPMS.DAL.DAO.Project")
+                    b.HasOne("CPMS.DAL.DTO.ProjectDTO")
                         .WithMany("Tasks")
-                        .HasForeignKey("ProjectID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ProjectDTOID");
                 });
 
-            modelBuilder.Entity("CPMS.DAL.DAO.Time", b =>
+            modelBuilder.Entity("CPMS.DAL.DTO.TimeDTO", b =>
                 {
-                    b.HasOne("CPMS.DAL.DAO.Invoice")
+                    b.HasOne("CPMS.DAL.DTO.InvoiceDTO")
                         .WithMany("TimeSpent")
-                        .HasForeignKey("InvoiceID");
+                        .HasForeignKey("InvoiceDTOID");
                 });
 #pragma warning restore 612, 618
         }

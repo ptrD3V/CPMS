@@ -3,9 +3,7 @@ using System.Threading.Tasks;
 
 namespace CPMS.BL.Services
 {
-    public interface IAddressService
+    public interface IAddressService : IBaseService<Address>
     {
-        Task AddAddress(Address item);
-        Task<Address> GetPersonAddress(int id);
     }
 }

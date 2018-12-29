@@ -8,6 +8,7 @@ namespace CPMS.DAL.DTO
     [Table("Projects", Schema = "cpms")]
     public class ProjectDTO
     {
+        [Key]
         public int ID { get; set; }
 
         [Required]

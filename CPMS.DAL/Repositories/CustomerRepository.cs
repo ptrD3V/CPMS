@@ -7,10 +7,10 @@ using Microsoft.Extensions.Logging;
 
 namespace CPMS.DAL.Repositories
 {
-    public class AddressRepository : RepositoryBase<AddressDTO>, IAddressRepository
+    public class CustomerRepository : RepositoryBase<CustomerDTO>, ICustomerRepository
     {
-        public AddressRepository(ManagementSystemContext ctx) :
-            base(ctx)
+        public CustomerRepository(ManagementSystemContext ctx, ILogger<CustomerDTO> logger) :
+            base(ctx, logger)
         { }
     }
 }

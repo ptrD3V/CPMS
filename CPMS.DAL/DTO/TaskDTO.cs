@@ -9,6 +9,7 @@ namespace CPMS.DAL.DTO
     [Table("Tasks", Schema = "cpms")]
     public class TaskDTO
     {
+        [Key]
         public int ID { get; set; }
 
         [Required]

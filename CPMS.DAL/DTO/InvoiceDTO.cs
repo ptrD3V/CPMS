@@ -8,6 +8,7 @@ namespace CPMS.DAL.DTO
     [Table("Invoices", Schema = "cpms")]
     public class InvoiceDTO
     {
+        [Key]
         public int ID { get; set; }
 
         [Required]
