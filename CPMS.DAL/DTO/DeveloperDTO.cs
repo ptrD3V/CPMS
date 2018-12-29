@@ -7,6 +7,7 @@ namespace CPMS.DAL.DTO
     [Table("Developers", Schema = "cpms")]
     public class DeveloperDTO
     {
+        [Key]
         public int ID { get; set; }
 
         [Required]

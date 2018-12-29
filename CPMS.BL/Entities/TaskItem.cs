@@ -1,36 +1,20 @@
 ﻿using CPMS.DAL.Common;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Text;
 
-namespace CPMS.DAL.DTO
+namespace CPMS.BL.Entities
 {
-    [Table("Tasks", Schema = "cpms")]
-    public class TaskDTO
+    public class TaskItem
     {
-        [Key]
         public int ID { get; set; }
-
-        [Required]
         public string Name { get; set; }
-
         public string Description { get; set; }
-
-        [Required]
         public Points Point { get; set; }
-
-        [Required]
         public TaskType Type { get; set; }
-
-        [Required]
         public int ProjectID { get; set; }
-
-        [Required]
         public DateTime StarDate { get; set; }
-
         public DateTime? CloseDate { get; set; }
-
-        public virtual ICollection<CommentDTO> Comments { get; set; }
+        public ICollection<Comment> Comments { get; set; }
     }
 }

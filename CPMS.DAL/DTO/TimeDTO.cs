@@ -8,6 +8,7 @@ namespace CPMS.DAL.DTO
     [Table("Times", Schema = "cpms")]
     public class TimeDTO
     {
+        [Key]
         public int ID { get; set; }
 
         [Required]

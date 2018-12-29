@@ -1,23 +1,32 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using CPMS.DAL.DAO;
+using CPMS.DAL.DTO;
 
 namespace CPMS.DAL.Context
 {
     public class ManagementSystemContext : DbContext
     {
-        public DbSet<Address> Addresses { get; set; }
-        public DbSet<Customer> Customers { get; set; }
-        public DbSet<Developer> Developers { get; set; }
-        public DbSet<BillingInfo> BillingInfos { get; set; }
-        public DbSet<Comment> Comments { get; set; }
-        public DbSet<Invoice> Invoices { get; set; }
-        public DbSet<Project> Projects { get; set; }
-        public DbSet<Task> Tasks { get; set; }
-        public DbSet<Time> Times { get; set; }
+        public DbSet<AddressDTO> Addresses { get; set; }
+        public DbSet<CustomerDTO> Customers { get; set; }
+        public DbSet<DeveloperDTO> Developers { get; set; }
+        public DbSet<BillingInfoDTO> BillingInfos { get; set; }
+        public DbSet<CommentDTO> Comments { get; set; }
+        public DbSet<InvoiceDTO> Invoices { get; set; }
+        public DbSet<ProjectDTO> Projects { get; set; }
+        public DbSet<TaskDTO> Tasks { get; set; }
+        public DbSet<TimeDTO> Times { get; set; }
 
         public ManagementSystemContext(DbContextOptions connectionString) :
             base(connectionString)
         {
+        }
+
+        protected override void OnModelCreating(ModelBuilder model)
+        {
+            model.Entity<AddressDTO>()
+                .Property(p => p.ID)
+                .ValueGeneratedNever();
+
+            base.OnModelCreating(model);
         }
     }
 }

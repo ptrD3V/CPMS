@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CPMS.DAL.Migrations
 {
-    public partial class database_initialize : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -32,7 +32,8 @@ namespace CPMS.DAL.Migrations
                 schema: "cpms",
                 columns: table => new
                 {
-                    ID = table.Column<int>(nullable: false),
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     FirstName = table.Column<string>(maxLength: 50, nullable: false),
                     LastName = table.Column<string>(maxLength: 50, nullable: false),
                     UserName = table.Column<string>(maxLength: 50, nullable: false),
@@ -48,7 +49,8 @@ namespace CPMS.DAL.Migrations
                 schema: "cpms",
                 columns: table => new
                 {
-                    ID = table.Column<int>(nullable: false),
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     PersonID = table.Column<int>(nullable: false),
                     ManHour = table.Column<decimal>(nullable: false),
                     Time = table.Column<decimal>(nullable: false),
@@ -64,7 +66,8 @@ namespace CPMS.DAL.Migrations
                 schema: "cpms",
                 columns: table => new
                 {
-                    ID = table.Column<int>(nullable: false),
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(maxLength: 50, nullable: false),
                     Description = table.Column<string>(nullable: true),
                     PersonID = table.Column<int>(nullable: false),
@@ -81,7 +84,8 @@ namespace CPMS.DAL.Migrations
                 schema: "cpms",
                 columns: table => new
                 {
-                    ID = table.Column<int>(nullable: false),
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     PersonID = table.Column<int>(nullable: false),
                     CompanyName = table.Column<string>(nullable: false),
                     AddressID = table.Column<int>(nullable: false),
@@ -106,20 +110,22 @@ namespace CPMS.DAL.Migrations
                 schema: "cpms",
                 columns: table => new
                 {
-                    ID = table.Column<int>(nullable: false),
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     TaskID = table.Column<int>(nullable: false),
                     PersonID = table.Column<int>(nullable: false),
                     InvoiceID = table.Column<int>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     Start = table.Column<DateTime>(nullable: false),
-                    Close = table.Column<DateTime>(nullable: true)
+                    Close = table.Column<DateTime>(nullable: true),
+                    InvoiceDTOID = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Times", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Times_Invoices_InvoiceID",
-                        column: x => x.InvoiceID,
+                        name: "FK_Times_Invoices_InvoiceDTOID",
+                        column: x => x.InvoiceDTOID,
                         principalSchema: "cpms",
                         principalTable: "Invoices",
                         principalColumn: "ID",
@@ -131,25 +137,27 @@ namespace CPMS.DAL.Migrations
                 schema: "cpms",
                 columns: table => new
                 {
-                    ID = table.Column<int>(nullable: false),
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: false),
                     Description = table.Column<string>(nullable: true),
                     Point = table.Column<int>(nullable: false),
                     Type = table.Column<int>(nullable: false),
                     ProjectID = table.Column<int>(nullable: false),
                     StarDate = table.Column<DateTime>(nullable: false),
-                    CloseDate = table.Column<DateTime>(nullable: true)
+                    CloseDate = table.Column<DateTime>(nullable: true),
+                    ProjectDTOID = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tasks", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Tasks_Projects_ProjectID",
-                        column: x => x.ProjectID,
+                        name: "FK_Tasks_Projects_ProjectDTOID",
+                        column: x => x.ProjectDTOID,
                         principalSchema: "cpms",
                         principalTable: "Projects",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -157,7 +165,8 @@ namespace CPMS.DAL.Migrations
                 schema: "cpms",
                 columns: table => new
                 {
-                    ID = table.Column<int>(nullable: false),
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     FirstName = table.Column<string>(maxLength: 50, nullable: false),
                     LastName = table.Column<string>(maxLength: 50, nullable: false),
                     BillingInfoID = table.Column<int>(nullable: true)
@@ -179,21 +188,23 @@ namespace CPMS.DAL.Migrations
                 schema: "cpms",
                 columns: table => new
                 {
-                    ID = table.Column<int>(nullable: false),
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Text = table.Column<string>(nullable: true),
                     DeveloperID = table.Column<int>(nullable: false),
-                    TaskID = table.Column<int>(nullable: false)
+                    TaskID = table.Column<int>(nullable: false),
+                    TaskDTOID = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Comments", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Comments_Tasks_TaskID",
-                        column: x => x.TaskID,
+                        name: "FK_Comments_Tasks_TaskDTOID",
+                        column: x => x.TaskDTOID,
                         principalSchema: "cpms",
                         principalTable: "Tasks",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -203,10 +214,10 @@ namespace CPMS.DAL.Migrations
                 column: "AddressID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_TaskID",
+                name: "IX_Comments_TaskDTOID",
                 schema: "cpms",
                 table: "Comments",
-                column: "TaskID");
+                column: "TaskDTOID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Customers_BillingInfoID",
@@ -215,16 +226,16 @@ namespace CPMS.DAL.Migrations
                 column: "BillingInfoID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tasks_ProjectID",
+                name: "IX_Tasks_ProjectDTOID",
                 schema: "cpms",
                 table: "Tasks",
-                column: "ProjectID");
+                column: "ProjectDTOID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Times_InvoiceID",
+                name: "IX_Times_InvoiceDTOID",
                 schema: "cpms",
                 table: "Times",
-                column: "InvoiceID");
+                column: "InvoiceDTOID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

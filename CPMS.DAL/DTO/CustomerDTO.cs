@@ -6,6 +6,7 @@ namespace CPMS.DAL.DTO
     [Table("Customers", Schema = "cpms")]
     public class CustomerDTO
     {
+        [Key]
         public int ID { get; set; }
 
         [Required]
