@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace CPMS.DAL.Repositories
 {
-    public class TimeRepository : RepositoryBase<TimeDTO>, ITimeRepository
+    public class TimeRepository : BaseRepository<TimeDTO>, ITimeRepository
     {
         public TimeRepository(ManagementSystemContext ctx, ILogger<TimeDTO> logger) :
             base(ctx, logger)

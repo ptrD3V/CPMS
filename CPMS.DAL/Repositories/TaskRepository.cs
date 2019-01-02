@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace CPMS.DAL.Repositories
 {
-    public class TaskRepository : RepositoryBase<TaskDTO>, ITaskRepository
+    public class TaskRepository : BaseRepository<TaskDTO>, ITaskRepository
     {
         public TaskRepository(ManagementSystemContext ctx, ILogger<TaskDTO> logger) :
             base(ctx, logger)

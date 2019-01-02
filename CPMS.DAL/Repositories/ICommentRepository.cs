@@ -5,7 +5,7 @@ using CPMS.DAL.DTO;
 
 namespace CPMS.DAL.Repositories
 {
-    public interface ICommentRepository : IRepositoryBase<CommentDTO>
+    public interface ICommentRepository : IBaseRepository<CommentDTO>
     {
     }
 }

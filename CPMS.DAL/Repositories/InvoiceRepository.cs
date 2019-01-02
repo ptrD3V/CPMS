@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace CPMS.DAL.Repositories
 {
-    public class InvoiceRepository : RepositoryBase<InvoiceDTO>, IInvoiceRepository
+    public class InvoiceRepository : BaseRepository<InvoiceDTO>, IInvoiceRepository
     {
         public InvoiceRepository(ManagementSystemContext ctx, ILogger<InvoiceDTO> logger) :
             base(ctx, logger)

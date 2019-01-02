@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace CPMS.DAL.Repositories
 {
-    public interface IRepositoryBase<T>
+    public interface IBaseRepository<T>
     {
         Task<IEnumerable<T>> GetAll();
         Task<T> GetByID(int id);

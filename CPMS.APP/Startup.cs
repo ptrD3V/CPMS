@@ -1,4 +1,5 @@
 ﻿using CPMS.BL.Common.Profile;
+using CPMS.BL.Factories;
 using CPMS.BL.Services;
 using CPMS.DAL.Context;
 using CPMS.DAL.Repositories;
@@ -30,6 +31,7 @@ namespace CPMS.APP
             services.AddDbContext<ManagementSystemContext>(options => 
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            // register repositories
             services.AddScoped<IAddressRepository, AddressRepository>();
             services.AddScoped<IBillingInfoRepository, BillingInfoRepository>();
             services.AddScoped<ICommentRepository, CommentRepository>();
@@ -40,6 +42,12 @@ namespace CPMS.APP
             services.AddScoped<ITaskRepository, TaskRepository>();
             services.AddScoped<ITimeRepository, TimeRepository>();
 
+            // register factories
+            services.AddScoped<IAddressFactory, AddressFactory>();
+            services.AddScoped<IBillingInfoFactory, BillingInfoFactory>();
+            services.AddScoped<ICustomerFactory, CustomerFactory>();
+
+            // register services
             services.AddScoped<IAddressService, AddressService>();
             services.AddScoped<IBillingInfoService, BillingInfoService>();
             services.AddScoped<ICommentService, CommentService>();

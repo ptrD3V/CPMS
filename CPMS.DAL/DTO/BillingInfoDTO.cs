@@ -14,6 +14,8 @@ namespace CPMS.DAL.DTO
 
         [Required]
         public string CompanyName { get; set; }
+        
+        public int AddressID { get; set; }
 
         [Required]
         public virtual AddressDTO Address { get; set; }

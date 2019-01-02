@@ -3,23 +3,26 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using CPMS.BL.Entities;
+using CPMS.BL.Factories;
 using CPMS.DAL.DTO;
+
 using CPMS.DAL.Repositories;
 using Microsoft.Extensions.Logging;
-
 namespace CPMS.BL.Services
 {
     public class AddressService : IAddressService
     {
         private readonly IAddressRepository _repository;
+        private readonly IAddressFactory _factory;
         private readonly IMapper _mapper;
         private readonly ILogger<AddressDTO> _logger;
 
-        public AddressService(IAddressRepository repository, IMapper mapper, ILogger<AddressDTO> logger)
+        public AddressService(IAddressRepository repository, IMapper mapper, ILogger<AddressDTO> logger, IAddressFactory factory)
         {
             _repository = repository;
             _mapper = mapper;
             _logger = logger;
+            _factory = factory;
         }
 
         public void Add(Address item)
@@ -27,8 +30,7 @@ namespace CPMS.BL.Services
             try
             {
                 var address = _mapper.Map<AddressDTO>(item);
-                _repository.Add(address);
-                _repository.Save();
+                var result = _factory.Create(address);
             }
             catch (Exception e)
             {

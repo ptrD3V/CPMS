@@ -5,7 +5,7 @@ using CPMS.DAL.DTO;
 
 namespace CPMS.DAL.Repositories
 {
-    public interface IProjectRepository : IRepositoryBase<ProjectDTO>
+    public interface IProjectRepository : IBaseRepository<ProjectDTO>
     {
     }
 }
