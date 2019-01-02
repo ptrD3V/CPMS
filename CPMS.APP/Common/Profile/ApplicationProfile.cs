@@ -28,6 +28,18 @@ namespace CPMS.BL.Common.Profile
 
             CreateMap<Project, ProjectModel>()
                 .ReverseMap();
+
+            CreateMap<BillingInfo, BillingInfoDTO>()
+                .ReverseMap();
+
+            CreateMap<BillingInfo, BillingInfoModel>()
+                .ReverseMap();
+
+            CreateMap<Customer, CustomerDTO>()
+                .ReverseMap();
+
+            CreateMap<Customer, CustomerModel>()
+                .ReverseMap();
         }
     }
 }

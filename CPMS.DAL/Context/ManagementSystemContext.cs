@@ -22,9 +22,8 @@ namespace CPMS.DAL.Context
 
         protected override void OnModelCreating(ModelBuilder model)
         {
-            model.Entity<AddressDTO>()
-                .Property(p => p.ID)
-                .ValueGeneratedNever();
+            model.Entity<BillingInfoDTO>()
+                .HasOne(c => c.Address);
 
             base.OnModelCreating(model);
         }

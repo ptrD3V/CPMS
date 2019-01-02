@@ -5,7 +5,7 @@ using CPMS.DAL.DTO;
 
 namespace CPMS.DAL.Repositories
 {
-    public interface ITimeRepository : IRepositoryBase<TimeDTO>
+    public interface ITimeRepository : IBaseRepository<TimeDTO>
     {
     }
 }

@@ -16,9 +16,11 @@ namespace CPMS.DAL.DTO
         public string Name { get; set; }
 
         public string Description { get; set; }
+        
+        public int CustomerID { get; set; }
 
         [Required]
-        public int PersonID { get; set; }
+        public virtual CustomerDTO Customer { get; set; }
 
         [Required]
         public DateTime StarDate { get; set; }

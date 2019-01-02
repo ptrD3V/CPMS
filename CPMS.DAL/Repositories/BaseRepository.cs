@@ -11,18 +11,18 @@ using Task = System.Threading.Tasks.Task;
 
 namespace CPMS.DAL.Repositories
 {
-    public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
+    public abstract class BaseRepository<T> : IBaseRepository<T> where T : class
     {
-        private ManagementSystemContext _ctx;
-        private ILogger<T> _logger;
+        protected ManagementSystemContext _ctx;
+        protected ILogger<T> _logger;
 
-        public RepositoryBase(ManagementSystemContext ctx, ILogger<T> logger)
+        public BaseRepository(ManagementSystemContext ctx, ILogger<T> logger)
         {
             _ctx = ctx;
             _logger = logger;
         }
 
-        public RepositoryBase(ManagementSystemContext ctx)
+        public BaseRepository(ManagementSystemContext ctx)
         {
             _ctx = ctx;
         }
@@ -36,19 +36,7 @@ namespace CPMS.DAL.Repositories
         {
             try
             {
-                Type type = item.GetType();
-                object obj = Activator.CreateInstance(type);
-                obj = item;
-                PropertyInfo prop = type.GetProperty("ID");
-                Type propertyType = prop.PropertyType;
-                TypeCode typeCode = Type.GetTypeCode(propertyType);
-                int oldID = (int)prop.GetValue(obj, null);
-                if (prop != null && oldID <= 0)
-                {
-                    int value = _ctx.Set<T>().Count() + 1;
-                    prop.SetValue(obj, value, null);
-                }
-                _ctx.Set<T>().Add((T)obj);
+                _ctx.Set<T>().Add(item);
             }
             catch (Exception e)
             {
@@ -94,7 +82,7 @@ namespace CPMS.DAL.Repositories
             return null;
         }
 
-        public async Task<T> GetByID(int id)
+        public virtual async Task<T> GetByID(int id)
         {
             try
             {
