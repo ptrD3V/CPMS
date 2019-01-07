@@ -28,40 +28,53 @@ namespace CPMS.BL.Services
             _logger = logger;
         }
 
-        public void Add(Customer item)
+        public Customer Add(Customer item)
         {
             try
             {
                 var customer = _mapper.Map<CustomerDTO>(item);
                 var result = _factory.Create(customer);
+                return result;
             }
             catch (Exception e)
             {
-                _logger.LogError($"There is a problem with save Address : {e}");
+                _logger.LogError($"There is a problem with save Customer : {e}");
+            }
+
+            return null;
+        }
+
+        public async Task Delete(int id)
+        {
+            try
+            {
+                var item = await _repository.GetByID(id);
+                _repository.Delete(item);
+                _repository.Save();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"There is a problem with delete Customer : {e}");
             }
         }
-
-        public void Delete(Customer item)
+        public async Task<IEnumerable<Customer>> GetAll()
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<Customer>> GetAll()
-        {
-            throw new NotImplementedException();
+            var users = await _repository.GetAllAsync();
+            var result = users != null ? _mapper.Map<IEnumerable<Customer>>(users) : null;
+            return result;
         }
 
         public async Task<Customer> GetById(int id)
         {
             try
             {
-                var item = await _repository.GetByID(id);
-                var address = _mapper.Map<Customer>(item);
-                return address;
+                var item = await _repository.GetByIDAsync(id);
+                var result = _mapper.Map<Customer>(item);
+                return result;
             }
             catch (Exception e)
             {
-                _logger.LogError($"There is a problem with save Address : {e}");
+                _logger.LogError($"There is a problem with find Customer : {e}");
             }
 
             return null;
@@ -69,7 +82,15 @@ namespace CPMS.BL.Services
 
         public void Update(Customer item)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _repository.Update(_mapper.Map<CustomerDTO>(item));
+                _repository.Save();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"There is a problem with update Customer : {e}");
+            }
         }
     }
 }

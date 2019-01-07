@@ -25,22 +25,34 @@ namespace CPMS.BL.Services
             _factory = factory;
         }
 
-        public void Add(Address item)
+        public Address Add(Address item)
         {
             try
             {
                 var address = _mapper.Map<AddressDTO>(item);
                 var result = _factory.Create(address);
+                return result;
             }
             catch (Exception e)
             {
                 _logger.LogError($"There is a problem with save Address : {e}");
             }
+
+            return null;
         }
 
-        public void Delete(Address item)
+        public async Task Delete(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var item = await _repository.GetByID(id);
+                _repository.Delete(item);
+                _repository.Save();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"There is a problem with delete Address : {e}");
+            }
         }
 
         public Task<IEnumerable<Address>> GetAll()
@@ -66,7 +78,15 @@ namespace CPMS.BL.Services
 
         public void Update(Address item)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _repository.Update(_mapper.Map<AddressDTO>(item));
+                _repository.Save();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"There is a problem with update Address : {e}");
+            }
         }
     }
 }

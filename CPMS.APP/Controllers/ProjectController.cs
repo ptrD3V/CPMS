@@ -14,26 +14,39 @@ namespace CPMS.APP.Controllers
     [ApiController]
     public class ProjectController : Controller
     {
-        private readonly IProjectService _projectService;
+        private readonly IProjectService _service;
         private readonly IMapper _mapper;
 
-        public ProjectController(IProjectService projectService, IMapper mapper)
+        public ProjectController(IProjectService service, IMapper mapper)
         {
-            _projectService = projectService;
+            _service = service;
             _mapper = mapper;
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Project>> Get(int id)
         {
-            var address = await _projectService.GetById(id);
+            var result = await _service.GetById(id);
 
-            if (address == null)
+            if (result == null)
             {
                 return NotFound();
             }
 
-            return Ok(address);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Project>>> Get()
+        {
+            var result = await _service.GetAll();
+
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(result);
         }
 
         [HttpPost]
@@ -42,8 +55,44 @@ namespace CPMS.APP.Controllers
             try
             {
                 var project = _mapper.Map<Project>(item);
-                _projectService.Add(project);
-                return Ok(project);
+                var result = _service.Add(project);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+
+            return BadRequest();
+        }
+
+        [HttpPut("Edit")]
+        public ActionResult Edit([FromBody] Project item)
+        {
+            if (item == null)
+            {
+                return BadRequest();
+            }
+            try
+            {
+                _service.Update(item);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            return BadRequest();
+        }
+
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            try
+            {
+                await _service.Delete(id);
+                return Ok();
             }
             catch (Exception e)
             {

@@ -1,0 +1,152 @@
+﻿@{
+    ViewData["Title"] = "Customer detail";
+}
+@using CPMS.DAL.Common
+@model CustomerModel
+
+<div class="container-fluid">
+    <div class="row main-header">
+        <h2>
+            @ViewData["Title"]
+        </h2>
+    </div>
+    <div class="body-content">
+        <div class="container">
+            <hr />
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="container card">
+                        <div class="row">
+                            <h4>
+                                Personal Info
+                            </h4>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                First Name :
+                            </div>
+                            <div class="col-md-2">
+                                @Model.FirstName
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                Last Name :
+                            </div>
+                            <div class="col-md-2">
+                                @Model.LastName
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container card">
+                        <div class="row">
+                            <h4>
+                                Billing Info
+                            </h4>
+                        </div>
+                        @if (@Model.BillingInfo != null)
+                        {
+                            <div class="row">
+                                <div class="col-md-2">
+                                    Company :
+                                </div>
+                                <div class="col-md-2">
+                                    @Model.BillingInfo.CompanyName
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    ICO :
+                                </div>
+                                <div class="col-md-2">
+                                    @Model.BillingInfo.ICO
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    DIC :
+                                </div>
+                                <div class="col-md-2">
+                                    @Model.BillingInfo.DIC
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    IBAN :
+                                </div>
+                                <div class="col-md-2">
+                                    @Model.BillingInfo.IBAN
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="row">
+                                <p>No billing info</p>
+                            </div>
+                        }
+
+                    </div>
+                    <div class="container card">
+                        <div class="row">
+                            <h4>
+                                Address Info
+                            </h4>
+                        </div>
+                        
+                    @if (@Model.BillingInfo != null)
+                    {
+                        @if (@Model.BillingInfo.Address != null)
+                         {
+                             <div class="row">
+                                 <div class="col-md-2">
+                                     Street :
+                                 </div>
+                                 <div class="col-md-2">
+                                     @Model.BillingInfo.Address.Street
+                                 </div>
+                             </div>
+                             <div class="row">
+                                 <div class="col-md-2">
+                                     City :
+                                 </div>
+                                 <div class="col-md-2">
+                                     @Model.BillingInfo.Address.City
+                                 </div>
+                             </div>
+                             <div class="row">
+                                 <div class="col-md-2">
+                                     ZIP :
+                                 </div>
+                                 <div class="col-md-2">
+                                     @Model.BillingInfo.Address.ZIP
+                                 </div>
+                             </div>
+                             <div class="row">
+                                 <div class="col-md-2">
+                                     Country :
+                                 </div>
+                                 <div class="col-md-2">
+                                     @Model.BillingInfo.Address.Country
+                                 </div>
+                             </div>
+                         }
+                         else
+                         {
+                             <div class="row">
+                                 <p>No address info</p>
+                             </div>
+                         }
+                    }
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <a asp-action="Index">Back to List</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -40,6 +40,12 @@ namespace CPMS.BL.Common.Profile
 
             CreateMap<Customer, CustomerModel>()
                 .ReverseMap();
+
+            CreateMap<Developer, DeveloperDTO>()
+                .ReverseMap();
+
+            CreateMap<Developer, DeveloperModel>()
+                .ReverseMap();
         }
     }
 }

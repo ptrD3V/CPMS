@@ -13,6 +13,7 @@ namespace CPMS.DAL.DTO
         public int ID { get; set; }
 
         [Required]
+        [StringLength(50)]
         public string Name { get; set; }
 
         public string Description { get; set; }

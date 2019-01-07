@@ -1,0 +1,138 @@
+﻿@{
+    ViewData["Title"] = "Project detail";
+}
+@using CPMS.DAL.Common
+@model TaskModel
+
+<div class="container-fluid">
+    <div class="row main-header">
+        <h2>
+            @ViewData["Title"]
+        </h2>
+    </div>
+    <div class="body-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <a class="btn btn-default" asp-action="Index"><<< Back</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="container card">
+                        <div class="row">
+                            <h4>
+                                General Info
+                            </h4>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                Task Name :
+                            </div>
+                            <div class="col-md-2">
+                                @Model.Name
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                        <div class="col-md-2">
+                            Project :
+                        </div>
+                        <div class="col-md-2">
+                            @if (@ViewData["Project"] != null)
+                            {
+                                @ViewData["Project"]
+                            }
+                            else
+                            {
+                                <div>---</div>
+                            }
+                        </div>
+                    </div>
+
+                        <div class="row">
+                            <div class="col-md-2">
+                                Type :
+                            </div>
+                            <div class="col-md-2">
+                                @Model.Type.ToString()
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-2">
+                                Points :
+                            </div>
+                            <div class="col-md-2">
+                                @Model.Point.ToString()
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                Start Date :
+                            </div>
+                            <div class="col-md-2">
+                                @Model.StarDate
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                End Date :
+                            </div>
+                            <div class="col-md-2">
+                                @if (@Model.CloseDate != null)
+                                {
+                                    @Model.CloseDate
+                                }
+                                else
+                                {
+                                    <span>---</span>
+                                }
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                Description :
+                            </div>
+                            <div class="col-md-2">
+                                @Model.Description
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    
+                </div>
+            </div>
+            <div class="row">
+                <div class="container card">
+                    <h4>Logged times</h4>
+                    @if (@Model.Comments.Count != 0)
+                    {
+                    }
+                    else
+                    {
+                        <div class="row">
+                            <div class="alert-warning">No logged times</div>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="row">
+                <div class="container card">
+                    <h4>Comments</h4>
+                    @if (@Model.Comments.Count != 0)
+                    {
+                    }
+                    else
+                    {
+                        <div class="row">
+                            <div class="alert-warning">No comments</div>
+                        </div>
+                    }
+                </div>
+            </div>
+            </div>
+</div>
+
+

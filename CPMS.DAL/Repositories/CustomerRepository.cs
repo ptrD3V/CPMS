@@ -16,7 +16,7 @@ namespace CPMS.DAL.Repositories
             base(ctx, logger)
         { }
 
-        public override async Task<CustomerDTO> GetByID(int id)
+        public async Task<CustomerDTO> GetByIDAsync(int id)
         {
             try
             {
@@ -25,6 +25,20 @@ namespace CPMS.DAL.Repositories
             catch (Exception e)
             {
                 _logger.LogInformation($"Problem with get {typeof(CustomerDTO).FullName} by id : {e}");
+            }
+
+            return null;
+        }
+
+        public virtual async Task<IEnumerable<CustomerDTO>> GetAllAsync()
+        {
+            try
+            {
+                return await _ctx.Customers.Include(i => i.BillingInfo).ThenInclude(a => a.Address).ToListAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation($"Problem with get {typeof(CustomerDTO).FullName} to list : {e}");
             }
 
             return null;

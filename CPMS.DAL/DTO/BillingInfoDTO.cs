@@ -10,9 +10,6 @@ namespace CPMS.DAL.DTO
         public int ID { get; set; }
 
         [Required]
-        public int PersonID { get; set; }
-
-        [Required]
         public string CompanyName { get; set; }
         
         public int AddressID { get; set; }

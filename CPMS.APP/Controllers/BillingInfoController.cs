@@ -24,7 +24,7 @@ namespace CPMS.APP.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Address>> Get(int id)
+        public async Task<ActionResult<BillingInfo>> Get(int id)
         {
             var result = await _service.GetById(id);
 
@@ -42,8 +42,8 @@ namespace CPMS.APP.Controllers
             try
             {
                 var billingInfo = _mapper.Map<BillingInfo>(item);
-                _service.Add(billingInfo);
-                return Ok(billingInfo);
+                var result = _service.Add(billingInfo);
+                return Ok(result);
             }
             catch (Exception e)
             {
@@ -52,5 +52,25 @@ namespace CPMS.APP.Controllers
 
             return BadRequest();
         }
+
+        [HttpPut("Edit")]
+        public ActionResult Edit([FromBody] BillingInfo item)
+        {
+            if (item == null)
+            {
+                return BadRequest();
+            }
+            try
+            {
+                _service.Update(item);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            return BadRequest();
+        }
+
     }
 }

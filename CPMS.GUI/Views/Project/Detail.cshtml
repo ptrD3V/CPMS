@@ -1,0 +1,151 @@
+﻿@{
+    ViewData["Title"] = "Project detail";
+}
+@using CPMS.DAL.Common
+@model ProjectModel
+
+<div class="container-fluid">
+    <div class="row main-header">
+        <h2>
+            @ViewData["Title"]
+        </h2>
+    </div>
+    <div class="body-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <a class="btn btn-default" asp-action="Index"><<< Back</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="container card">
+                        <div class="row">
+                            <h4>
+                                General Info
+                            </h4>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                Project Name :
+                            </div>
+                            <div class="col-md-2">
+                                @Model.Name
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-2">
+                                Start Date :
+                            </div>
+                            <div class="col-md-2">
+                                @Model.StarDate
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                End Date :
+                            </div>
+                            <div class="col-md-2">
+                                @if (@Model.EndDate != null)
+                                {
+                                    @Model.EndDate
+                                }
+                                else
+                                {
+                                    <span>---</span>
+                                }
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                Customer :
+                            </div>
+                            <div class="col-md-2">
+                                @if (@Model.Customer != null)
+                                {
+                                    @if (@Model.Customer.BillingInfo != null)
+                                    {
+                                        @Model.Customer.BillingInfo.CompanyName
+                                    }
+                                    else
+                                    {
+                                        @Model.Customer.FullName
+                                    }
+                                }
+                                else
+                                {
+                                    <span>---</span>
+                                }
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                Description :
+                            </div>
+                            <div class="col-md-2">
+                                @Model.Description
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="container card">
+                        <div class="row">
+                            <h4>
+                                Other Info
+                            </h4>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                Number of tasks total :
+                            </div>
+                            <div class="col-md-2">
+                                72
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                Logged time total :
+                            </div>
+                            <div class="col-md-2">
+                                324
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                Number of tasks this month :
+                            </div>
+                            <div class="col-md-2">
+                                10
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                Logged time this month :
+                            </div>
+                            <div class="col-md-2">
+                                56
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="container card">
+                    <h4>Tasks</h4>
+                    @if (@Model.Tasks.Count != 0)
+                    {
+                    }
+                    else
+                    {
+                        <div class="row">
+                            <div class="alert-warning">No tasks</div>
+                        </div>
+                    }
+                </div>
+            </div>
+            </div>
+</div>
+
+

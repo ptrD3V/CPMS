@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CPMS.DAL.Migrations
 {
     [DbContext(typeof(ManagementSystemContext))]
-    [Migration("20181229134906_initial")]
-    partial class initial
+    [Migration("20190102132317_developers_password")]
+    partial class developers_password
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,7 +23,9 @@ namespace CPMS.DAL.Migrations
 
             modelBuilder.Entity("CPMS.DAL.DTO.AddressDTO", b =>
                 {
-                    b.Property<int>("ID");
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("City")
                         .IsRequired();
@@ -61,8 +63,6 @@ namespace CPMS.DAL.Migrations
 
                     b.Property<string>("ICO")
                         .IsRequired();
-
-                    b.Property<int>("PersonID");
 
                     b.HasKey("ID");
 
@@ -129,6 +129,10 @@ namespace CPMS.DAL.Migrations
                         .IsRequired()
                         .HasMaxLength(50);
 
+                    b.Property<byte[]>("PasswordHash");
+
+                    b.Property<byte[]>("PasswordSalt");
+
                     b.Property<int>("Role");
 
                     b.Property<string>("UserName")
@@ -165,6 +169,8 @@ namespace CPMS.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("CustomerID");
+
                     b.Property<string>("Description");
 
                     b.Property<DateTime?>("EndDate");
@@ -173,11 +179,11 @@ namespace CPMS.DAL.Migrations
                         .IsRequired()
                         .HasMaxLength(50);
 
-                    b.Property<int>("PersonID");
-
                     b.Property<DateTime>("StarDate");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("CustomerID");
 
                     b.ToTable("Projects","cpms");
                 });
@@ -193,7 +199,8 @@ namespace CPMS.DAL.Migrations
                     b.Property<string>("Description");
 
                     b.Property<string>("Name")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(50);
 
                     b.Property<int>("Point");
 
@@ -259,6 +266,14 @@ namespace CPMS.DAL.Migrations
                     b.HasOne("CPMS.DAL.DTO.BillingInfoDTO", "BillingInfo")
                         .WithMany()
                         .HasForeignKey("BillingInfoID");
+                });
+
+            modelBuilder.Entity("CPMS.DAL.DTO.ProjectDTO", b =>
+                {
+                    b.HasOne("CPMS.DAL.DTO.CustomerDTO", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("CPMS.DAL.DTO.TaskDTO", b =>

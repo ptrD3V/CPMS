@@ -1,0 +1,93 @@
+﻿@{
+    ViewData["Title"] = "Edit customer";
+}
+@using CPMS.DAL.Common
+@model CustomerModel
+
+<div class="container-fluid">
+    <div class="row main-header">
+        <h2>
+            @ViewData["Title"]
+        </h2>
+    </div>
+    <div class="body-content">
+        <div class="container">
+            <hr />
+            <div class="row">
+                <div class="col-md-4">
+
+                    <div class="alert-danger">
+                        @ViewData["Message"]
+                    </div>
+
+                    <div class="alert-success">
+                        @ViewData["MessageSuccess"]
+                    </div>
+                    <form asp-action="EditCustomer">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input asp-for="ID" class="form-control" type="hidden"/>
+                        <div class="form-group">
+                            <label asp-for="FirstName" class="control-label"></label>
+                            <input asp-for="FirstName" class="form-control" />
+                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="LastName" class="control-label"></label>
+                            <input asp-for="LastName" class="form-control" />
+                            <span asp-validation-for="LastName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="BillingInfo.CompanyName" class="control-label"></label>
+                            <input asp-for="BillingInfo.CompanyName" class="form-control" />
+                            <span asp-validation-for="BillingInfo.CompanyName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="BillingInfo.ICO" class="control-label"></label>
+                            <input asp-for="BillingInfo.ICO" class="form-control" />
+                            <span asp-validation-for="BillingInfo.ICO" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="BillingInfo.DIC" class="control-label"></label>
+                            <input asp-for="BillingInfo.DIC" class="form-control" />
+                            <span asp-validation-for="BillingInfo.DIC" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="BillingInfo.IBAN" class="control-label"></label>
+                            <input asp-for="BillingInfo.IBAN" class="form-control" />
+                            <span asp-validation-for="BillingInfo.IBAN" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="BillingInfo.Address.Street" class="control-label"></label>
+                            <input asp-for="BillingInfo.Address.Street" class="form-control" />
+                            <span asp-validation-for="BillingInfo.Address.Street" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="BillingInfo.Address.City" class="control-label"></label>
+                            <input asp-for="BillingInfo.Address.City" class="form-control" />
+                            <span asp-validation-for="BillingInfo.Address.City" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="BillingInfo.Address.ZIP" class="control-label"></label>
+                            <input asp-for="BillingInfo.Address.ZIP" class="form-control" />
+                            <span asp-validation-for="BillingInfo.Address.ZIP" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="BillingInfo.Address.Country" class="control-label"></label>
+                            <input asp-for="BillingInfo.Address.Country" class="form-control" />
+                            <span asp-validation-for="BillingInfo.Address.Country" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Update" class="btn btn-success" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div>
+                <a asp-action="Index">Back to List</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+

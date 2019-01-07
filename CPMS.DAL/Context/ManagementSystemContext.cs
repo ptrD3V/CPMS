@@ -25,6 +25,9 @@ namespace CPMS.DAL.Context
             model.Entity<BillingInfoDTO>()
                 .HasOne(c => c.Address);
 
+            model.Entity<BillingInfoDTO>()
+                .HasOne(c => c.Address);
+
             base.OnModelCreating(model);
         }
     }

@@ -16,7 +16,8 @@ namespace CPMS.DAL.Migrations
                 schema: "cpms",
                 columns: table => new
                 {
-                    ID = table.Column<int>(nullable: false),
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Street = table.Column<string>(nullable: false),
                     ZIP = table.Column<int>(nullable: false),
                     City = table.Column<string>(nullable: false),
@@ -62,31 +63,12 @@ namespace CPMS.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Projects",
-                schema: "cpms",
-                columns: table => new
-                {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(maxLength: 50, nullable: false),
-                    Description = table.Column<string>(nullable: true),
-                    PersonID = table.Column<int>(nullable: false),
-                    StarDate = table.Column<DateTime>(nullable: false),
-                    EndDate = table.Column<DateTime>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Projects", x => x.ID);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "BillingInfos",
                 schema: "cpms",
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    PersonID = table.Column<int>(nullable: false),
                     CompanyName = table.Column<string>(nullable: false),
                     AddressID = table.Column<int>(nullable: false),
                     ICO = table.Column<string>(nullable: false),
@@ -133,34 +115,6 @@ namespace CPMS.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Tasks",
-                schema: "cpms",
-                columns: table => new
-                {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: false),
-                    Description = table.Column<string>(nullable: true),
-                    Point = table.Column<int>(nullable: false),
-                    Type = table.Column<int>(nullable: false),
-                    ProjectID = table.Column<int>(nullable: false),
-                    StarDate = table.Column<DateTime>(nullable: false),
-                    CloseDate = table.Column<DateTime>(nullable: true),
-                    ProjectDTOID = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Tasks", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_Tasks_Projects_ProjectDTOID",
-                        column: x => x.ProjectDTOID,
-                        principalSchema: "cpms",
-                        principalTable: "Projects",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Customers",
                 schema: "cpms",
                 columns: table => new
@@ -179,6 +133,59 @@ namespace CPMS.DAL.Migrations
                         column: x => x.BillingInfoID,
                         principalSchema: "cpms",
                         principalTable: "BillingInfos",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Projects",
+                schema: "cpms",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(maxLength: 50, nullable: false),
+                    Description = table.Column<string>(nullable: true),
+                    CustomerID = table.Column<int>(nullable: false),
+                    StarDate = table.Column<DateTime>(nullable: false),
+                    EndDate = table.Column<DateTime>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Projects", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Projects_Customers_CustomerID",
+                        column: x => x.CustomerID,
+                        principalSchema: "cpms",
+                        principalTable: "Customers",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tasks",
+                schema: "cpms",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(maxLength: 50, nullable: false),
+                    Description = table.Column<string>(nullable: true),
+                    Point = table.Column<int>(nullable: false),
+                    Type = table.Column<int>(nullable: false),
+                    ProjectID = table.Column<int>(nullable: false),
+                    StarDate = table.Column<DateTime>(nullable: false),
+                    CloseDate = table.Column<DateTime>(nullable: true),
+                    ProjectDTOID = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tasks", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Tasks_Projects_ProjectDTOID",
+                        column: x => x.ProjectDTOID,
+                        principalSchema: "cpms",
+                        principalTable: "Projects",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -226,6 +233,12 @@ namespace CPMS.DAL.Migrations
                 column: "BillingInfoID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Projects_CustomerID",
+                schema: "cpms",
+                table: "Projects",
+                column: "CustomerID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Tasks_ProjectDTOID",
                 schema: "cpms",
                 table: "Tasks",
@@ -245,10 +258,6 @@ namespace CPMS.DAL.Migrations
                 schema: "cpms");
 
             migrationBuilder.DropTable(
-                name: "Customers",
-                schema: "cpms");
-
-            migrationBuilder.DropTable(
                 name: "Developers",
                 schema: "cpms");
 
@@ -261,15 +270,19 @@ namespace CPMS.DAL.Migrations
                 schema: "cpms");
 
             migrationBuilder.DropTable(
-                name: "BillingInfos",
-                schema: "cpms");
-
-            migrationBuilder.DropTable(
                 name: "Invoices",
                 schema: "cpms");
 
             migrationBuilder.DropTable(
                 name: "Projects",
+                schema: "cpms");
+
+            migrationBuilder.DropTable(
+                name: "Customers",
+                schema: "cpms");
+
+            migrationBuilder.DropTable(
+                name: "BillingInfos",
                 schema: "cpms");
 
             migrationBuilder.DropTable(

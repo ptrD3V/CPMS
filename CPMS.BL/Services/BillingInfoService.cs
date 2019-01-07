@@ -27,22 +27,34 @@ namespace CPMS.BL.Services
             _factory = factory;
         }
 
-        public void Add(BillingInfo item)
+        public BillingInfo Add(BillingInfo item)
         {
             try
             {
                 var billingInfo = _mapper.Map<BillingInfoDTO>(item);
                 var result = _factory.Create(billingInfo);
+                return result;
             }
             catch (Exception e)
             {
                 _logger.LogError($"There is a problem with save Address : {e}");
             }
+
+            return null;
         }
 
-        public void Delete(BillingInfo item)
+        public async Task Delete(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var item = await _repository.GetByID(id);
+                _repository.Delete(item);
+                _repository.Save();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"There is a problem with delete BillingInfo : {e}");
+            }
         }
 
         public Task<IEnumerable<BillingInfo>> GetAll()
@@ -54,9 +66,9 @@ namespace CPMS.BL.Services
         {
             try
             {
-                var item = await _repository.GetByID(id);
-                var billingInfo = _mapper.Map<BillingInfo>(item);
-                return billingInfo;
+                var item = await _repository.GetByIDAsync(id);
+                var result = _mapper.Map<BillingInfo>(item);
+                return result;
             }
             catch (Exception e)
             {
@@ -68,7 +80,15 @@ namespace CPMS.BL.Services
 
         public void Update(BillingInfo item)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _repository.Update(_mapper.Map<BillingInfoDTO>(item));
+                _repository.Save();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"There is a problem with update BillingInfo : {e}");
+            }
         }
     }
 }
