@@ -16,7 +16,7 @@ namespace CPMS.DAL.Repositories
             base(ctx, logger)
         { }
 
-        public override async Task<BillingInfoDTO> GetByID(int id)
+        public async Task<BillingInfoDTO> GetByIDAsync(int id)
         {
             try
             {

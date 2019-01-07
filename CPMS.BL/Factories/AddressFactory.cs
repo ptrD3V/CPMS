@@ -23,11 +23,10 @@ namespace CPMS.BL.Factories
 
         public Address Create(AddressDTO item)
         {
-            var address = this.Identify(item);
-            _repository.Add(address);
+            _repository.Add(item);
             _repository.Save();
 
-            return _mapper.Map<Address>(address);
+            return _mapper.Map<Address>(item);
         }
     }
 }

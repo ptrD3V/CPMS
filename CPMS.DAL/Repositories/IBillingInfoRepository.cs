@@ -8,6 +8,6 @@ namespace CPMS.DAL.Repositories
 {
     public interface IBillingInfoRepository : IBaseRepository<BillingInfoDTO>
     {
-        Task<BillingInfoDTO> GetByID(int id);
+        Task<BillingInfoDTO> GetByIDAsync(int id);
     }
 }

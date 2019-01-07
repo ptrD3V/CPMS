@@ -8,6 +8,7 @@ namespace CPMS.DAL.Repositories
 {
     public interface ICustomerRepository : IBaseRepository<CustomerDTO>
     {
-        Task<CustomerDTO> GetByID(int id);
+        Task<CustomerDTO> GetByIDAsync(int id);
+        Task<IEnumerable<CustomerDTO>> GetAllAsync();
     }
 }

@@ -22,6 +22,11 @@ namespace CPMS.DAL.DTO
         [StringLength(50)]
         public string UserName { get; set; }
 
+
+        public byte[] PasswordHash { get; set; }
+
+        public byte[] PasswordSalt { get; set; }
+
         [Required]
         public Role Role { get; set; }
     }

@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CPMS.GUI.Factories;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TaskFactory = CPMS.GUI.Factories.TaskFactory;
 
 namespace CPMS.GUI
 {
@@ -30,6 +33,18 @@ namespace CPMS.GUI
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddScoped<ICustomerFactory, CustomerFactory>();
+            services.AddScoped<IDeveloperFactory, DeveloperFactory>();
+            services.AddScoped<ITaskFactory, TaskFactory>();
+            services.AddScoped<IProjectFactory, ProjectFactory>();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
+                    options =>
+                    {
+                        options.LoginPath = new PathString("/auth/login");
+                        options.AccessDeniedPath = new PathString("/auth/denied");
+                    });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -48,6 +63,8 @@ namespace CPMS.GUI
 
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {

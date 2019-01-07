@@ -5,9 +5,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using CPMS.GUI.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CPMS.GUI.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         public IActionResult Index()

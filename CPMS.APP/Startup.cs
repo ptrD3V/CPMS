@@ -2,7 +2,10 @@
 using CPMS.BL.Factories;
 using CPMS.BL.Services;
 using CPMS.DAL.Context;
+using CPMS.DAL.DTO;
 using CPMS.DAL.Repositories;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -46,6 +49,9 @@ namespace CPMS.APP
             services.AddScoped<IAddressFactory, AddressFactory>();
             services.AddScoped<IBillingInfoFactory, BillingInfoFactory>();
             services.AddScoped<ICustomerFactory, CustomerFactory>();
+            services.AddScoped<IProjectFactory, ProjectFactory>();
+            services.AddScoped<ITaskFactory, TaskFactory>();
+            services.AddScoped<IDeveloperFactory, DeveloperFactory>();
 
             // register services
             services.AddScoped<IAddressService, AddressService>();
@@ -70,6 +76,8 @@ namespace CPMS.APP
             {
                 c.SwaggerDoc("v1", new Info { Title = "CPMS.API", Description = "CPMS Swagger Core API"} );
             });
+
+            services.AddAuthentication(Microsoft.AspNetCore.Server.IISIntegration.IISDefaults.AuthenticationScheme);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -83,6 +91,8 @@ namespace CPMS.APP
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseAuthentication();
 
             app.UseMvc();
 

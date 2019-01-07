@@ -14,19 +14,19 @@ namespace CPMS.APP.Controllers
     [ApiController]
     public class AddressController : Controller
     {
-        private readonly IAddressService _addressService;
+        private readonly IAddressService _service;
         private readonly IMapper _mapper;
 
-        public AddressController(IAddressService addressService, IMapper mapper)
+        public AddressController(IAddressService service, IMapper mapper)
         {
-            _addressService = addressService;
+            _service = service;
             _mapper = mapper;
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Address>> Get(int id)
         {
-            var address = await _addressService.GetById(id);
+            var address = await _service.GetById(id);
 
             if (address == null)
             {
@@ -42,8 +42,8 @@ namespace CPMS.APP.Controllers
             try
             {
                 var address = _mapper.Map<Address>(item);
-                _addressService.Add(address);
-                return Ok(address);
+                var result = _service.Add(address);
+                return Ok(result);
             }
             catch (Exception e)
             {
@@ -52,5 +52,25 @@ namespace CPMS.APP.Controllers
 
             return BadRequest();
         }
+
+        [HttpPut("Edit")]
+        public ActionResult Edit([FromBody] Address item)
+        {
+            if (item == null)
+            {
+                return BadRequest();
+            }
+            try
+            {
+                _service.Update(item);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            return BadRequest();
+        }
+
     }
 }

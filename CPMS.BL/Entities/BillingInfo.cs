@@ -7,7 +7,6 @@ namespace CPMS.BL.Entities
     public class BillingInfo
     {
         public int ID { get; set; }
-        public int PersonID { get; set; }
         public string CompanyName { get; set; }
         public Address Address { get; set; }
         public string ICO { get; set; }

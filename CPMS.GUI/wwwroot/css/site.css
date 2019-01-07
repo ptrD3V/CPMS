@@ -12,20 +12,54 @@ body {
     padding-right: 15px;
 }
 
-/* Carousel */
-.carousel-caption p {
-    font-size: 20px;
-    line-height: 1.4;
+.main-header {
+    border-bottom: 1px solid #aaa;  
+    margin-bottom: 20px;
 }
 
-/* Make .svg files in the carousel display properly in older browsers */
-.carousel-inner .item img[src$=".svg"] {
-    width: 100%;
+
+.row {
+    display: flex
 }
 
-/* QR code generator */
-#qrCode {
-    margin: 15px;
+.col {
+    margin: 5px 25px 5px 25px;
+}
+
+.col-sm {
+    width: 100px;
+}
+
+.col-md {
+    width: 140px
+}
+
+.col-lg {
+    width: 200px
+}
+
+.col-lg-2 {
+    width: 250px
+}
+
+.border-bottom {
+    border-bottom: 1px solid #a9a9a9;
+}
+
+.btn {
+    background: slategray;
+    color: #fff;
+    margin: 10px;
+}
+
+.btn-default {
+    background: slategray;
+    color: #fff;
+}
+
+.container .data-list {
+    max-height: 400px;
+    overflow: auto;
 }
 
 /* Hide/rearrange for smaller screens */
@@ -34,4 +68,38 @@ body {
     .carousel-caption {
         display: none;
     }
+}
+
+.btn-info {
+    border: inherit;
+}
+
+.btn-success {
+    border: inherit;
+}
+
+.btn-info:hover {
+    background-color: inherit;
+    border-color: inherit;
+    color: #333;
+    background-color: #e6e6e6;
+    border-color: #adadad;
+}
+
+.btn-success:hover {
+    background-color: inherit;
+    border-color: inherit;
+    color: #333;
+    background-color: #e6e6e6;
+    border-color: #adadad;
+}
+
+.btn-danger {
+    color: #fff;
+    background-color: #d9534f;
+    border-color: #d43f3a;
+}
+
+.col .btn {
+    margin: 0px;
 }

@@ -31,8 +31,24 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                    <li><a asp-area="" asp-controller="People" asp-action="Index">People</a></li>
+                    <li><a asp-area="" asp-controller="Project" asp-action="Index">Projects</a></li>
+                    <li><a asp-area="" asp-controller="Task" asp-action="Index">Tasks</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy policy</a></li>
+                        <li>
+                            <form action="/auth/logout" method="post">
+                                <input type="submit" value="Logout" />
+                                @Html.AntiForgeryToken()
+                            </form>
+                        </li>
+                        <li><div class="badge label-success" style="margin-top: 20%;"> @User.Identity.Name</div></li>
+                    }
+                    else
+                    {
+                        <li><a asp-area="" asp-controller="Auth" asp-action="Login">Log in</a></li>
+                    }
                 </ul>
             </div>
         </div>
