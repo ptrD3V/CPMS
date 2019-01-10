@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CPMS.BL.Entities
 {
@@ -8,7 +6,8 @@ namespace CPMS.BL.Entities
     {
         public int ID { get; set; }
         public int TaskID { get; set; }
-        public int PersonID { get; set; }
+        public int DeveloperID { get; set; }
+        public virtual Developer Developer { get; set; }
         public int? InvoiceID { get; set; }
         public string Description { get; set; }
         public DateTime Start { get; set; }

@@ -4,16 +4,16 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CPMS.DAL.Migrations
 {
-    public partial class initial : Migration
+    public partial class init_repair : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
-                name: "cpms");
+                name: "pms");
 
             migrationBuilder.CreateTable(
                 name: "Addresses",
-                schema: "cpms",
+                schema: "pms",
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
@@ -30,7 +30,7 @@ namespace CPMS.DAL.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Developers",
-                schema: "cpms",
+                schema: "pms",
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
@@ -38,6 +38,8 @@ namespace CPMS.DAL.Migrations
                     FirstName = table.Column<string>(maxLength: 50, nullable: false),
                     LastName = table.Column<string>(maxLength: 50, nullable: false),
                     UserName = table.Column<string>(maxLength: 50, nullable: false),
+                    PasswordHash = table.Column<byte[]>(nullable: true),
+                    PasswordSalt = table.Column<byte[]>(nullable: true),
                     Role = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -46,25 +48,8 @@ namespace CPMS.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Invoices",
-                schema: "cpms",
-                columns: table => new
-                {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    PersonID = table.Column<int>(nullable: false),
-                    ManHour = table.Column<decimal>(nullable: false),
-                    Time = table.Column<decimal>(nullable: false),
-                    CreateDate = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Invoices", x => x.ID);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "BillingInfos",
-                schema: "cpms",
+                schema: "pms",
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
@@ -81,42 +66,15 @@ namespace CPMS.DAL.Migrations
                     table.ForeignKey(
                         name: "FK_BillingInfos_Addresses_AddressID",
                         column: x => x.AddressID,
-                        principalSchema: "cpms",
+                        principalSchema: "pms",
                         principalTable: "Addresses",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Times",
-                schema: "cpms",
-                columns: table => new
-                {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    TaskID = table.Column<int>(nullable: false),
-                    PersonID = table.Column<int>(nullable: false),
-                    InvoiceID = table.Column<int>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    Start = table.Column<DateTime>(nullable: false),
-                    Close = table.Column<DateTime>(nullable: true),
-                    InvoiceDTOID = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Times", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_Times_Invoices_InvoiceDTOID",
-                        column: x => x.InvoiceDTOID,
-                        principalSchema: "cpms",
-                        principalTable: "Invoices",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Customers",
-                schema: "cpms",
+                schema: "pms",
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
@@ -131,15 +89,39 @@ namespace CPMS.DAL.Migrations
                     table.ForeignKey(
                         name: "FK_Customers_BillingInfos_BillingInfoID",
                         column: x => x.BillingInfoID,
-                        principalSchema: "cpms",
+                        principalSchema: "pms",
                         principalTable: "BillingInfos",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
+                name: "Invoices",
+                schema: "pms",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CustomerID = table.Column<int>(nullable: false),
+                    ManHour = table.Column<decimal>(nullable: false),
+                    Time = table.Column<decimal>(nullable: false),
+                    CreateDate = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Invoices", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Invoices_Customers_CustomerID",
+                        column: x => x.CustomerID,
+                        principalSchema: "pms",
+                        principalTable: "Customers",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Projects",
-                schema: "cpms",
+                schema: "pms",
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
@@ -156,7 +138,7 @@ namespace CPMS.DAL.Migrations
                     table.ForeignKey(
                         name: "FK_Projects_Customers_CustomerID",
                         column: x => x.CustomerID,
-                        principalSchema: "cpms",
+                        principalSchema: "pms",
                         principalTable: "Customers",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
@@ -164,7 +146,7 @@ namespace CPMS.DAL.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Tasks",
-                schema: "cpms",
+                schema: "pms",
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
@@ -175,119 +157,188 @@ namespace CPMS.DAL.Migrations
                     Type = table.Column<int>(nullable: false),
                     ProjectID = table.Column<int>(nullable: false),
                     StarDate = table.Column<DateTime>(nullable: false),
-                    CloseDate = table.Column<DateTime>(nullable: true),
-                    ProjectDTOID = table.Column<int>(nullable: true)
+                    CloseDate = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tasks", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Tasks_Projects_ProjectDTOID",
-                        column: x => x.ProjectDTOID,
-                        principalSchema: "cpms",
+                        name: "FK_Tasks_Projects_ProjectID",
+                        column: x => x.ProjectID,
+                        principalSchema: "pms",
                         principalTable: "Projects",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Comments",
-                schema: "cpms",
+                schema: "pms",
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Text = table.Column<string>(nullable: true),
                     DeveloperID = table.Column<int>(nullable: false),
-                    TaskID = table.Column<int>(nullable: false),
-                    TaskDTOID = table.Column<int>(nullable: true)
+                    TaskID = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Comments", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Comments_Tasks_TaskDTOID",
-                        column: x => x.TaskDTOID,
-                        principalSchema: "cpms",
+                        name: "FK_Comments_Developers_DeveloperID",
+                        column: x => x.DeveloperID,
+                        principalSchema: "pms",
+                        principalTable: "Developers",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Comments_Tasks_TaskID",
+                        column: x => x.TaskID,
+                        principalSchema: "pms",
                         principalTable: "Tasks",
                         principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Times",
+                schema: "pms",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    TaskID = table.Column<int>(nullable: false),
+                    DeveloperID = table.Column<int>(nullable: false),
+                    InvoiceID = table.Column<int>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    Start = table.Column<DateTime>(nullable: false),
+                    Close = table.Column<DateTime>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Times", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Times_Developers_DeveloperID",
+                        column: x => x.DeveloperID,
+                        principalSchema: "pms",
+                        principalTable: "Developers",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Times_Invoices_InvoiceID",
+                        column: x => x.InvoiceID,
+                        principalSchema: "pms",
+                        principalTable: "Invoices",
+                        principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Times_Tasks_TaskID",
+                        column: x => x.TaskID,
+                        principalSchema: "pms",
+                        principalTable: "Tasks",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_BillingInfos_AddressID",
-                schema: "cpms",
+                schema: "pms",
                 table: "BillingInfos",
                 column: "AddressID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_TaskDTOID",
-                schema: "cpms",
+                name: "IX_Comments_DeveloperID",
+                schema: "pms",
                 table: "Comments",
-                column: "TaskDTOID");
+                column: "DeveloperID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Comments_TaskID",
+                schema: "pms",
+                table: "Comments",
+                column: "TaskID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Customers_BillingInfoID",
-                schema: "cpms",
+                schema: "pms",
                 table: "Customers",
                 column: "BillingInfoID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Invoices_CustomerID",
+                schema: "pms",
+                table: "Invoices",
+                column: "CustomerID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Projects_CustomerID",
-                schema: "cpms",
+                schema: "pms",
                 table: "Projects",
                 column: "CustomerID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tasks_ProjectDTOID",
-                schema: "cpms",
+                name: "IX_Tasks_ProjectID",
+                schema: "pms",
                 table: "Tasks",
-                column: "ProjectDTOID");
+                column: "ProjectID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Times_InvoiceDTOID",
-                schema: "cpms",
+                name: "IX_Times_DeveloperID",
+                schema: "pms",
                 table: "Times",
-                column: "InvoiceDTOID");
+                column: "DeveloperID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Times_InvoiceID",
+                schema: "pms",
+                table: "Times",
+                column: "InvoiceID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Times_TaskID",
+                schema: "pms",
+                table: "Times",
+                column: "TaskID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "Comments",
-                schema: "cpms");
-
-            migrationBuilder.DropTable(
-                name: "Developers",
-                schema: "cpms");
+                schema: "pms");
 
             migrationBuilder.DropTable(
                 name: "Times",
-                schema: "cpms");
+                schema: "pms");
 
             migrationBuilder.DropTable(
-                name: "Tasks",
-                schema: "cpms");
+                name: "Developers",
+                schema: "pms");
 
             migrationBuilder.DropTable(
                 name: "Invoices",
-                schema: "cpms");
+                schema: "pms");
+
+            migrationBuilder.DropTable(
+                name: "Tasks",
+                schema: "pms");
 
             migrationBuilder.DropTable(
                 name: "Projects",
-                schema: "cpms");
+                schema: "pms");
 
             migrationBuilder.DropTable(
                 name: "Customers",
-                schema: "cpms");
+                schema: "pms");
 
             migrationBuilder.DropTable(
                 name: "BillingInfos",
-                schema: "cpms");
+                schema: "pms");
 
             migrationBuilder.DropTable(
                 name: "Addresses",
-                schema: "cpms");
+                schema: "pms");
         }
     }
 }

@@ -14,6 +14,7 @@
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     </environment>
 </head>
 <body>
@@ -33,17 +34,17 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     @if (User.Identity.IsAuthenticated)
                     {
-                    <li><a asp-area="" asp-controller="People" asp-action="Index">People</a></li>
-                    <li><a asp-area="" asp-controller="Project" asp-action="Index">Projects</a></li>
-                    <li><a asp-area="" asp-controller="Task" asp-action="Index">Tasks</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy policy</a></li>
+                        <li><a asp-area="" asp-controller="People" asp-action="Index">People</a></li>
+                        <li><a asp-area="" asp-controller="Project" asp-action="Index">Projects</a></li>
+                        <li><a asp-area="" asp-controller="Task" asp-action="Index">Tasks</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy policy</a></li>
                         <li>
                             <form action="/auth/logout" method="post">
-                                <input type="submit" value="Logout" />
+                                <input type="submit" value="Logout" style="margin: 12px;" />
                                 @Html.AntiForgeryToken()
                             </form>
                         </li>
-                        <li><div class="badge label-success" style="margin-top: 20%;"> @User.Identity.Name</div></li>
+                        <li><div class="badge label-success" style="margin: 15px;"> @User.Identity.Name</div></li>
                     }
                     else
                     {

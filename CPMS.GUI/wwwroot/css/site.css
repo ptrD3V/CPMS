@@ -103,3 +103,7 @@ body {
 .col .btn {
     margin: 0px;
 }
+
+.tasklist .col-sm-4 {
+    padding: 0px;
+}

@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using CPMS.BL.Entities;
 
 namespace CPMS.BL.Services
 {
-    public interface ITimeService
+    public interface ITimeService : IBaseService<Time>
     {
+        Task<IEnumerable<Time>> GetByTask(int id);
     }
 }

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Text;
@@ -14,6 +12,7 @@ using Newtonsoft.Json;
 
 namespace CPMS.GUI.Controllers
 {
+    // inspired by: https://github.com/github-ganesh/AspNetCore_CookieAuth/blob/master/aspnet_cookieauth/Controllers/AccountController.cs
     [Authorize]
     [Route("[controller]/[action]")]
     public class AuthController : Controller
@@ -24,7 +23,7 @@ namespace CPMS.GUI.Controllers
         {
             return View();
         }
-
+        
         [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Login(LoginModel loginUser)
@@ -61,7 +60,8 @@ namespace CPMS.GUI.Controllers
             }
             var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
             identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName.ToString()));
-            identity.AddClaim(new Claim("DisplayName", user.UserName));
+            identity.AddClaim(new Claim(ClaimTypes.Role, user.Role.ToString()));
+            identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.ID.ToString()));
 
             await HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
@@ -83,7 +83,7 @@ namespace CPMS.GUI.Controllers
             }
             else
             {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
+                return RedirectToAction("Index", "Home");
             }
         }
 

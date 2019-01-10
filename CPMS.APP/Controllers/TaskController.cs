@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using CPMS.APP.Models;
@@ -34,6 +33,32 @@ namespace CPMS.APP.Controllers
             }
 
             return Ok(address);
+        }
+
+        [HttpGet("project/{id}")]
+        public async Task<ActionResult<IEnumerable<Time>>> GetByProject(int id)
+        {
+            var result = await _service.GetByProject(id);
+
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(result);
+        }
+
+        [HttpGet("project/time/{id}")]
+        public async Task<ActionResult<IEnumerable<Time>>> GetTimeByProject(int id)
+        {
+            var result = await _service.GetTime(id);
+
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(result);
         }
 
         [HttpGet]

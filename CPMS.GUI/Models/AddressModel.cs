@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace CPMS.GUI.Models
+﻿namespace CPMS.GUI.Models
 {
     public class AddressModel
     {

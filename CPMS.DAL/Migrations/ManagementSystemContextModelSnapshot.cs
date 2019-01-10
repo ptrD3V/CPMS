@@ -38,7 +38,7 @@ namespace CPMS.DAL.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Addresses","cpms");
+                    b.ToTable("Addresses","pms");
                 });
 
             modelBuilder.Entity("CPMS.DAL.DTO.BillingInfoDTO", b =>
@@ -66,7 +66,7 @@ namespace CPMS.DAL.Migrations
 
                     b.HasIndex("AddressID");
 
-                    b.ToTable("BillingInfos","cpms");
+                    b.ToTable("BillingInfos","pms");
                 });
 
             modelBuilder.Entity("CPMS.DAL.DTO.CommentDTO", b =>
@@ -77,17 +77,17 @@ namespace CPMS.DAL.Migrations
 
                     b.Property<int>("DeveloperID");
 
-                    b.Property<int?>("TaskDTOID");
-
                     b.Property<int>("TaskID");
 
                     b.Property<string>("Text");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("TaskDTOID");
+                    b.HasIndex("DeveloperID");
 
-                    b.ToTable("Comments","cpms");
+                    b.HasIndex("TaskID");
+
+                    b.ToTable("Comments","pms");
                 });
 
             modelBuilder.Entity("CPMS.DAL.DTO.CustomerDTO", b =>
@@ -110,7 +110,7 @@ namespace CPMS.DAL.Migrations
 
                     b.HasIndex("BillingInfoID");
 
-                    b.ToTable("Customers","cpms");
+                    b.ToTable("Customers","pms");
                 });
 
             modelBuilder.Entity("CPMS.DAL.DTO.DeveloperDTO", b =>
@@ -139,7 +139,7 @@ namespace CPMS.DAL.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Developers","cpms");
+                    b.ToTable("Developers","pms");
                 });
 
             modelBuilder.Entity("CPMS.DAL.DTO.InvoiceDTO", b =>
@@ -150,15 +150,17 @@ namespace CPMS.DAL.Migrations
 
                     b.Property<DateTime>("CreateDate");
 
-                    b.Property<decimal>("ManHour");
+                    b.Property<int>("CustomerID");
 
-                    b.Property<int>("PersonID");
+                    b.Property<decimal>("ManHour");
 
                     b.Property<decimal>("Time");
 
                     b.HasKey("ID");
 
-                    b.ToTable("Invoices","cpms");
+                    b.HasIndex("CustomerID");
+
+                    b.ToTable("Invoices","pms");
                 });
 
             modelBuilder.Entity("CPMS.DAL.DTO.ProjectDTO", b =>
@@ -183,7 +185,7 @@ namespace CPMS.DAL.Migrations
 
                     b.HasIndex("CustomerID");
 
-                    b.ToTable("Projects","cpms");
+                    b.ToTable("Projects","pms");
                 });
 
             modelBuilder.Entity("CPMS.DAL.DTO.TaskDTO", b =>
@@ -202,8 +204,6 @@ namespace CPMS.DAL.Migrations
 
                     b.Property<int>("Point");
 
-                    b.Property<int?>("ProjectDTOID");
-
                     b.Property<int>("ProjectID");
 
                     b.Property<DateTime>("StarDate");
@@ -212,9 +212,9 @@ namespace CPMS.DAL.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("ProjectDTOID");
+                    b.HasIndex("ProjectID");
 
-                    b.ToTable("Tasks","cpms");
+                    b.ToTable("Tasks","pms");
                 });
 
             modelBuilder.Entity("CPMS.DAL.DTO.TimeDTO", b =>
@@ -227,11 +227,9 @@ namespace CPMS.DAL.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<int?>("InvoiceDTOID");
+                    b.Property<int>("DeveloperID");
 
                     b.Property<int?>("InvoiceID");
-
-                    b.Property<int>("PersonID");
 
                     b.Property<DateTime>("Start");
 
@@ -239,9 +237,13 @@ namespace CPMS.DAL.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("InvoiceDTOID");
+                    b.HasIndex("DeveloperID");
 
-                    b.ToTable("Times","cpms");
+                    b.HasIndex("InvoiceID");
+
+                    b.HasIndex("TaskID");
+
+                    b.ToTable("Times","pms");
                 });
 
             modelBuilder.Entity("CPMS.DAL.DTO.BillingInfoDTO", b =>
@@ -254,9 +256,15 @@ namespace CPMS.DAL.Migrations
 
             modelBuilder.Entity("CPMS.DAL.DTO.CommentDTO", b =>
                 {
-                    b.HasOne("CPMS.DAL.DTO.TaskDTO")
+                    b.HasOne("CPMS.DAL.DTO.DeveloperDTO", "Developer")
+                        .WithMany()
+                        .HasForeignKey("DeveloperID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("CPMS.DAL.DTO.TaskDTO", "Task")
                         .WithMany("Comments")
-                        .HasForeignKey("TaskDTOID");
+                        .HasForeignKey("TaskID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("CPMS.DAL.DTO.CustomerDTO", b =>
@@ -264,6 +272,14 @@ namespace CPMS.DAL.Migrations
                     b.HasOne("CPMS.DAL.DTO.BillingInfoDTO", "BillingInfo")
                         .WithMany()
                         .HasForeignKey("BillingInfoID");
+                });
+
+            modelBuilder.Entity("CPMS.DAL.DTO.InvoiceDTO", b =>
+                {
+                    b.HasOne("CPMS.DAL.DTO.CustomerDTO", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("CPMS.DAL.DTO.ProjectDTO", b =>
@@ -276,16 +292,27 @@ namespace CPMS.DAL.Migrations
 
             modelBuilder.Entity("CPMS.DAL.DTO.TaskDTO", b =>
                 {
-                    b.HasOne("CPMS.DAL.DTO.ProjectDTO")
+                    b.HasOne("CPMS.DAL.DTO.ProjectDTO", "Project")
                         .WithMany("Tasks")
-                        .HasForeignKey("ProjectDTOID");
+                        .HasForeignKey("ProjectID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("CPMS.DAL.DTO.TimeDTO", b =>
                 {
-                    b.HasOne("CPMS.DAL.DTO.InvoiceDTO")
+                    b.HasOne("CPMS.DAL.DTO.DeveloperDTO", "Developer")
+                        .WithMany()
+                        .HasForeignKey("DeveloperID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("CPMS.DAL.DTO.InvoiceDTO", "Invoice")
                         .WithMany("TimeSpent")
-                        .HasForeignKey("InvoiceDTOID");
+                        .HasForeignKey("InvoiceID");
+
+                    b.HasOne("CPMS.DAL.DTO.TaskDTO", "Task")
+                        .WithMany()
+                        .HasForeignKey("TaskID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

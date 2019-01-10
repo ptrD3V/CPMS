@@ -1,6 +1,9 @@
 ﻿@{
     ViewData["Title"] = "People";
+    var IsManager = User.FindFirst(ClaimTypes.Role)?.Value == "Manager";
+    var IsDeveloper = User.FindFirst(ClaimTypes.Role)?.Value == "Developer";
 }
+@using System.Security.Claims
 
 <div class="container-fluid">
     <div class="row main-header">
@@ -11,10 +14,13 @@
     
     <div class="body-content">
         <div class="row">
-            <ul class="nav navbar-nav">
-                <li><a asp-area="" asp-controller="People" asp-action="AddDeveloper">Add developer</a></li>
-                <li><a asp-area="" asp-controller="People" asp-action="AddCustomer">Add Customer</a></li>
-            </ul>
+            @if (IsManager)
+            {
+                <ul class="nav navbar-nav">
+                    <li><a asp-area="" asp-controller="People" asp-action="AddDeveloper">Add developer</a></li>
+                    <li><a asp-area="" asp-controller="People" asp-action="AddCustomer">Add Customer</a></li>
+                </ul>
+            }
         </div>
         <div class="container-fluid">
             <div class="alert-danger">
@@ -44,8 +50,11 @@
                          <div class="col col-md">@item.Role.ToString()</div>
                          <div class="col col-lg-6">
                              <a class="btn btn-default" asp-area="" asp-controller="People" asp-action="DetailDeveloper" asp-route-id="@item.ID">Detail</a>
-                             <a class="btn btn-default" asp-area="" asp-controller="People" asp-action="EditDeveloper" asp-route-id="@item.ID">Update</a>
-                             <a class="btn btn-danger" asp-area="" asp-controller="People" asp-action="RemoveDeveloper" asp-route-id="@item.ID">Remove</a>
+                             @if (IsManager)
+                             {
+                                 <a class="btn btn-default" asp-area="" asp-controller="People" asp-action="EditDeveloper" asp-route-id="@item.ID">Update</a>
+                                 <a class="btn btn-danger" asp-area="" asp-controller="People" asp-action="RemoveDeveloper" asp-route-id="@item.ID">Remove</a>
+                             }
                          </div>
                      </div>
                  }
@@ -78,8 +87,11 @@
 
                 <div class="col col-lg-6">
                     <a class="btn btn-default" asp-area="" asp-controller="People" asp-action="DetailCustomer" asp-route-id="@item.ID">Detail</a>
-                    <a class="btn btn-default" asp-area="" asp-controller="People" asp-action="EditCustomer" asp-route-id="@item.ID">Update</a>
-                    <a class="btn btn-danger" asp-area="" asp-controller="People" asp-action="RemoveCustomer" asp-route-id="@item.ID">Remove</a>
+                    @if (IsManager)
+                    {
+                        <a class="btn btn-default" asp-area="" asp-controller="People" asp-action="EditCustomer" asp-route-id="@item.ID">Update</a>
+                        <a class="btn btn-danger" asp-area="" asp-controller="People" asp-action="RemoveCustomer" asp-route-id="@item.ID">Remove</a>
+                    }
                 </div>
             </div>
                  }

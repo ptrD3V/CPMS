@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -13,5 +11,6 @@ namespace CPMS.GUI.Factories
         Task<bool> PutObject(string path, T model);
         Task<T> GetObject(string path);
         Task<bool> DeleteObject(string path);
+        Task<IEnumerable<T>> GetObjects(string path);
     }
 }

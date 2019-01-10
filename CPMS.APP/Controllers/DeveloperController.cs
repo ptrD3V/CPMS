@@ -1,13 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using CPMS.BL.Services;
 using AutoMapper;
 using CPMS.APP.Models;
 using CPMS.BL.Entities;
-using Microsoft.AspNetCore.Authorization;
 
 namespace CPMS.APP.Controllers
 {

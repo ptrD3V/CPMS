@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using CPMS.APP.Models;
+﻿using CPMS.APP.Models;
 using CPMS.BL.Entities;
 using CPMS.DAL.DTO;
 
 namespace CPMS.BL.Common.Profile
 {
+    /// <summary>
+    /// Class create maps of models and register it to the application.
+    /// </summary>
     public class ApplicationProfile : AutoMapper.Profile
     {
         public ApplicationProfile()
@@ -45,6 +45,12 @@ namespace CPMS.BL.Common.Profile
                 .ReverseMap();
 
             CreateMap<Developer, DeveloperModel>()
+                .ReverseMap();
+
+            CreateMap<Time, TimeDTO>()
+                .ReverseMap();
+
+            CreateMap<Time, TimeModel>()
                 .ReverseMap();
         }
     }

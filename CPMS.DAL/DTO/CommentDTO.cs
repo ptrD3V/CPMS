@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CPMS.DAL.DTO
 {
-    [Table("Comments", Schema = "cpms")]
+    [Table("Comments", Schema = "pms")]
     public class CommentDTO
     {
         [Key]
@@ -14,7 +14,11 @@ namespace CPMS.DAL.DTO
         [Required]
         public int DeveloperID { get; set; }
 
+        public virtual DeveloperDTO Developer { get; set; }
+
         [Required]
         public int TaskID { get; set; }
+
+        public virtual TaskDTO Task{ get; set; }
     }
 }

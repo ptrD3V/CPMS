@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using CPMS.BL.Entities;
+﻿using CPMS.BL.Entities;
 
 namespace CPMS.BL.Services
 {

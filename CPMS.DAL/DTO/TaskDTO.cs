@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CPMS.DAL.DTO
 {
-    [Table("Tasks", Schema = "cpms")]
+    [Table("Tasks", Schema = "pms")]
     public class TaskDTO
     {
         [Key]
@@ -26,6 +26,8 @@ namespace CPMS.DAL.DTO
 
         [Required]
         public int ProjectID { get; set; }
+
+        public virtual ProjectDTO Project { get; set; }
 
         [Required]
         public DateTime StarDate { get; set; }

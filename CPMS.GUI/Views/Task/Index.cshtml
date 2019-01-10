@@ -1,6 +1,9 @@
 ﻿@{
     ViewData["Title"] = "Tasks";
+    var IsManager = User.FindFirst(ClaimTypes.Role)?.Value == "Manager";
+    var IsDeveloper = User.FindFirst(ClaimTypes.Role)?.Value == "Developer";
 }
+@using System.Security.Claims
 
 <div class="container-fluid">
     <div class="row main-header">
@@ -8,11 +11,14 @@
             @ViewData["Title"]
         </h2>
     </div>
-    
+
     <div class="body-content">
         <div class="row">
             <ul class="nav navbar-nav">
-                <li><a asp-area="" asp-controller="Task" asp-action="Add">Add task</a></li>
+                @if (IsDeveloper || IsManager)
+                {
+                    <li><a asp-area="" asp-controller="Task" asp-action="Add">Add task</a></li>
+                }
             </ul>
         </div>
         <div class="container-fluid">
@@ -40,22 +46,33 @@
                     <div class="row border-bottom">
                         <div class="col col-sm">@item.ID</div>
                         <div class="col col-md">@item.Name</div>
-                        <div class="col col-md">@item.Point.ToString()</div>
+                        <div class="col col-sm" style="text-align: center">@item.Point.GetHashCode()</div>
                         <div class="col col-md">@item.Type.ToString()</div>
                         <div class="col col-md">@item.StarDate</div>
                         @if (item.CloseDate == null)
                         {
-                            <div class="col col-md">Active</div>
+                            <div class="col col-md">
+                                <span class="alert-warning">
+                                    Pending
+                                </span>
+                            </div>
                         }
                         else
                         {
-                            <div class="col col-md">Done</div>
+                            <div class="col col-md">
+                                <span class="alert-success">
+                                    Done
+                                </span>
+                            </div>
                         }
 
                         <div class="col col-lg-6">
                             <a class="btn btn-default" asp-area="" asp-controller="Task" asp-action="Detail" asp-route-id="@item.ID">Detail</a>
                             <a class="btn btn-default" asp-area="" asp-controller="Task" asp-action="Edit" asp-route-id="@item.ID">Update</a>
-                            <a class="btn btn-danger" asp-area="" asp-controller="Task" asp-action="Remove" asp-route-id="@item.ID">Remove</a>
+                            @if (IsManager)
+                            {
+                                <a class="btn btn-danger" asp-area="" asp-controller="Task" asp-action="Remove" asp-route-id="@item.ID">Remove</a>
+                            }
                         </div>
                     </div>
                 }

@@ -1,5 +1,3 @@
-using System;
-
 namespace CPMS.GUI.Models
 {
     public class ErrorViewModel

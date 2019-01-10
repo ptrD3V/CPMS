@@ -1,5 +1,4 @@
 ﻿using CPMS.BL.Entities;
-using System.Threading.Tasks;
 
 namespace CPMS.BL.Services
 {
