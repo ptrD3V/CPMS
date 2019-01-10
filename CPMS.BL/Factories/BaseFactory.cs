@@ -1,21 +1,34 @@
 ﻿using CPMS.DAL.Context;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace CPMS.BL.Factories
 {
+    /// <summary>
+    /// Base factory is template for factory classes.
+    /// </summary>
+    /// <typeparam name="T">Class type</typeparam>
     public class BaseFactory<T> : IBaseFactory<T> where T : class
     {
+        // DB Context
         private readonly ManagementSystemContext _ctx;
 
+        /// <summary>
+        /// Constructor of generic factory
+        /// </summary>
+        /// <param name="ctx">DB context</param>
         public BaseFactory(ManagementSystemContext ctx)
         {
             _ctx = ctx;
         }
 
+        /// <summary>
+        /// Helper function that was used when DB indexer fails.
+        /// This function is not used in production.
+        /// </summary>
+        /// <param name="item">Class type</param>
+        /// <returns>Class type object</returns>
         public T Identify(T item)
         {
             try

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CPMS.BL.Entities
+﻿namespace CPMS.BL.Entities
 {
     public class BillingInfo
     {

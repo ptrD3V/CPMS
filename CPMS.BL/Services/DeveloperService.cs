@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using CPMS.BL.Entities;
@@ -29,16 +28,20 @@ namespace CPMS.BL.Services
             _logger = logger;
         }
 
+        // source: // source: http://jasonwatmore.com/post/2018/06/26/aspnet-core-21-simple-api-for-authentication-registration-and-user-management
         public Developer Add(Developer user, string password)
         {
             if (string.IsNullOrWhiteSpace(password))
                 throw new Exception("Password is required");
 
+            // find if user exists
             var existingUsers = _repository.FindByConditionAync(x => x.UserName == user.UserName);
             if (existingUsers.Result.Count() != 0)
                 throw new Exception("Username \"" + user.UserName + "\" is already taken");
 
             byte[] passwordHash, passwordSalt;
+
+            // create password secret
             CreatePasswordHash(password, out passwordHash, out passwordSalt);
 
             var developer = _mapper.Map<DeveloperDTO>(user);
@@ -56,6 +59,7 @@ namespace CPMS.BL.Services
             throw new NotImplementedException();
         }
 
+        // source: http://jasonwatmore.com/post/2018/06/26/aspnet-core-21-simple-api-for-authentication-registration-and-user-management
         public Developer Authenticate(string username, string password)
         {
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
@@ -123,6 +127,7 @@ namespace CPMS.BL.Services
             }
         }
 
+        // source: http://jasonwatmore.com/post/2018/06/26/aspnet-core-21-simple-api-for-authentication-registration-and-user-management
         private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             if (password == null) throw new ArgumentNullException("password");
@@ -135,6 +140,7 @@ namespace CPMS.BL.Services
             }
         }
 
+        // source: http://jasonwatmore.com/post/2018/06/26/aspnet-core-21-simple-api-for-authentication-registration-and-user-management
         private static bool VerifyPasswordHash(string password, byte[] storedHash, byte[] storedSalt)
         {
             if (password == null) throw new ArgumentNullException("password");

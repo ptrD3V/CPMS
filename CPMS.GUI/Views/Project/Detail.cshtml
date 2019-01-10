@@ -1,7 +1,9 @@
 ﻿@{
     ViewData["Title"] = "Project detail";
+    var IsManager = User.FindFirst(ClaimTypes.Role)?.Value == "Manager";
+    var IsDeveloper = User.FindFirst(ClaimTypes.Role)?.Value == "Developer";
 }
-@using CPMS.DAL.Common
+@using System.Security.Claims
 @model ProjectModel
 
 <div class="container-fluid">
@@ -13,9 +15,15 @@
     <div class="body-content">
         <div class="container">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-2">
                     <a class="btn btn-default" asp-action="Index"><<< Back</a>
                 </div>
+                @if (IsManager)
+                {
+                    <div class="col-md-2">
+                        <a class="btn btn-default" asp-action="Close" asp-route-id="@Model.ID">Close project</a>
+                    </div>
+                }
             </div>
             <div class="row">
                 <div class="col-md-4">
@@ -101,7 +109,7 @@
                                 Number of tasks total :
                             </div>
                             <div class="col-md-2">
-                                72
+                                @ViewData["TasksCount"]
                             </div>
                         </div>
                         <div class="row">
@@ -109,7 +117,7 @@
                                 Logged time total :
                             </div>
                             <div class="col-md-2">
-                                324
+                                @ViewData["TimeCount"]
                             </div>
                         </div>
                         <div class="row">
@@ -117,7 +125,7 @@
                                 Number of tasks this month :
                             </div>
                             <div class="col-md-2">
-                                10
+                                @ViewData["TasksCountMonth"]
                             </div>
                         </div>
                         <div class="row">
@@ -125,7 +133,7 @@
                                 Logged time this month :
                             </div>
                             <div class="col-md-2">
-                                56
+                                @ViewData["TimeCountMonth"]
                             </div>
                         </div>
                     </div>
@@ -134,8 +142,54 @@
             <div class="row">
                 <div class="container card">
                     <h4>Tasks</h4>
-                    @if (@Model.Tasks.Count != 0)
+                    <div class="row" style="padding: 10px; background: #222; color:#ffffff">
+                        <div class="col-sm-6">
+                            Name
+                        </div>
+                        <div class="col-sm-6">
+                            Points
+                        </div>
+                        <div class="col-sm-6">
+                            Type
+                        </div>
+                        <div class="col-sm-6">
+                            Status
+                        </div>
+                        <div class="col-sm-6">
+                            Actions
+                        </div>
+                    </div>
+                    @if (@ViewData["Tasks"] != null)
                     {
+                        @foreach (var item in @ViewData["Tasks"] as List<TaskModel>)
+                        {
+                            <div class="row tasklist" style="border: 1px solid #aaa; padding: 10px; background: #eee;">
+                                <div class="col-sm-6">
+                                    @item.Name
+                                </div>
+                                <div class="col-sm-6">
+                                    @item.Point.ToString()
+                                </div>
+                                <div class="col-sm-6">
+                                    @item.Type
+                                </div>
+                                <div class="col-sm-6">
+                                    @if (@item.CloseDate != null)
+                                    {
+                                        <span class="alert-success">Done</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="alert-warning">Pending</span>
+                                    }
+                                </div>
+                                <div class="col-sm-6">
+                                    <a asp-area="" asp-controller="Task" asp-action="Detail" asp-route-id="@item.ID">Detail</a>
+                                    <a asp-area="" asp-controller="Task" asp-action="Edit" asp-route-id="@item.ID">Update</a>
+                                    <a style="margin-left: 10px; background: red; padding: 3px 5px; border-radius: 5px; color: #fff;" asp-area="" asp-controller="Task" asp-action="Remove" asp-route-id="@item.ID">x</a>
+                                </div>
+                            </div>
+                        }
                     }
                     else
                     {
@@ -145,7 +199,7 @@
                     }
                 </div>
             </div>
-            </div>
+        </div>
+    </div>
 </div>
-
 

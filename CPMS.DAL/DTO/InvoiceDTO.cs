@@ -5,14 +5,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CPMS.DAL.DTO
 {
-    [Table("Invoices", Schema = "cpms")]
+    [Table("Invoices", Schema = "pms")]
     public class InvoiceDTO
     {
         [Key]
         public int ID { get; set; }
 
         [Required]
-        public int PersonID { get; set; }
+        public int CustomerID { get; set; }
+
+        public virtual CustomerDTO Customer { get; set; }
 
         [Required]
         [Range(0, int.MaxValue)]

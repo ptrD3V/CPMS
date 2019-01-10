@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Reflection.Metadata;
-using System.Text;
 using System.Threading.Tasks;
 using CPMS.GUI.Factories;
 using CPMS.GUI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace CPMS.GUI.Controllers
 {
+    [Authorize]
     public class PeopleController : Controller
     {
         private ICustomerFactory _customerFactory;
@@ -142,11 +140,11 @@ namespace CPMS.GUI.Controllers
             if (!result)
             {
                 ViewData["Message"] = "Something wrong";
-                return View("Index");
+                return RedirectToAction("Index");
             }
 
             ViewData["MessageSuccess"] = "Customer deleted";
-            return View("Index");
+            return RedirectToAction("Index");
         }
 
         [HttpGet("remove/developer/id")]
@@ -156,11 +154,11 @@ namespace CPMS.GUI.Controllers
             if (!result)
             {
                 ViewData["Message"] = "Something wrong";
-                return View("Index");
+                return RedirectToAction("Index");
             }
 
             ViewData["MessageSuccess"] = "Developer deleted";
-            return View("Index");
+            return RedirectToAction("Index");
         }
 
         [HttpGet("detail/customer/id")]

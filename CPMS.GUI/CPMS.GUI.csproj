@@ -57,6 +57,12 @@
     <Content Update="Views\Project\Index.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\Task\EditTime.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Task\LogTime.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Task\Detail.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -87,6 +86,31 @@ namespace CPMS.GUI.Factories
                     }
                     var result = await response.Content.ReadAsStringAsync();
                     map = JsonConvert.DeserializeObject<T>(result);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+            }
+            return map;
+        }
+
+        public async Task<IEnumerable<T>> GetObjects(string path)
+        {
+            IEnumerable<T> map;
+            using (var client = new HttpClient())
+            {
+                try
+                {
+                    client.BaseAddress = new Uri("http://localhost:5000");
+                    var response = await client.GetAsync(path);
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        return null;
+                    }
+                    var result = await response.Content.ReadAsStringAsync();
+                    map = JsonConvert.DeserializeObject<IEnumerable<T>>(result);
                 }
                 catch (Exception e)
                 {

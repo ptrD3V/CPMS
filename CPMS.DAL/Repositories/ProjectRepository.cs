@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using CPMS.DAL.Context;
 using CPMS.DAL.DTO;
@@ -20,7 +19,7 @@ namespace CPMS.DAL.Repositories
         {
             try
             {
-                return await _ctx.Projects.Include("Customer").Where(x => x.ID == id).FirstOrDefaultAsync();
+                return await _ctx.Projects.Include(c => c.Customer).ThenInclude(b => b.BillingInfo).Where(x => x.ID == id).FirstOrDefaultAsync();
             }
             catch (Exception e)
             {

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CPMS.DAL.DTO
 {
-    [Table("Customers", Schema = "cpms")]
+    [Table("Customers", Schema = "pms")]
     public class CustomerDTO
     {
         [Key]

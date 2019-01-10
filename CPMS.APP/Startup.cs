@@ -2,10 +2,7 @@
 using CPMS.BL.Factories;
 using CPMS.BL.Services;
 using CPMS.DAL.Context;
-using CPMS.DAL.DTO;
 using CPMS.DAL.Repositories;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -51,6 +48,7 @@ namespace CPMS.APP
             services.AddScoped<ICustomerFactory, CustomerFactory>();
             services.AddScoped<IProjectFactory, ProjectFactory>();
             services.AddScoped<ITaskFactory, TaskFactory>();
+            services.AddScoped<ITimeFactory, TimeFactory>();
             services.AddScoped<IDeveloperFactory, DeveloperFactory>();
 
             // register services
@@ -64,14 +62,17 @@ namespace CPMS.APP
             services.AddScoped<ITaskService, TaskService>();
             services.AddScoped<ITimeService, TimeService>();
 
+            // register mapper profile
             var config = new AutoMapper.MapperConfiguration(c =>
             {
                 c.AddProfile(new ApplicationProfile());
             });
 
+            // create mapper instance and singleton
             var mapper = config.CreateMapper();
             services.AddSingleton(mapper);
 
+            // create swagger document
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "CPMS.API", Description = "CPMS Swagger Core API"} );

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using CPMS.BL.Entities;
@@ -14,13 +14,15 @@ namespace CPMS.BL.Services
     public class TaskService : ITaskService
     {
         private readonly ITaskRepository _repository;
+        private readonly ITimeRepository _timeRepository;
         private readonly ITaskFactory _factory;
         private readonly IMapper _mapper;
         private readonly ILogger<TaskDTO> _logger;
 
-        public TaskService(ITaskRepository repository, IMapper mapper, ITaskFactory factory, ILogger<TaskDTO> logger)
+        public TaskService(ITaskRepository repository, ITimeRepository timeRepository, IMapper mapper, ITaskFactory factory, ILogger<TaskDTO> logger)
         {
             _repository = repository;
+            _timeRepository = timeRepository;
             _mapper = mapper;
             _factory = factory;
             _logger = logger;
@@ -77,6 +79,22 @@ namespace CPMS.BL.Services
             }
 
             return null;
+        }
+
+        public async Task<IEnumerable<TaskItem>> GetByProject(int id)
+        {
+            var items = await _repository.FindByConditionAync(x => x.ProjectID == id);
+            var result = items != null ? _mapper.Map<IEnumerable<TaskItem>>(items) : null;
+            return result;
+        }
+
+        public async Task<IEnumerable<Time>> GetTime(int id)
+        {
+            var items = await _repository.FindByConditionAync(x => x.ProjectID == id);
+            var ids = items.Select(x => x.ID).ToList();
+            var times = await _timeRepository.FindByConditionAync(x => ids.Contains(x.TaskID));
+            var result = items != null ? _mapper.Map<IEnumerable<Time>>(times) : null;
+            return result;
         }
 
         public void Update(TaskItem item)

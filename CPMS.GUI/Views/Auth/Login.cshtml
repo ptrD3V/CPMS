@@ -12,7 +12,7 @@
 <form method="post">
     <div asp-validation-summary="All" class="text-danger"></div>
     Username: <input asp-for="Username" value="username" /><br />
-    Password: <input asp-for="Password" value="password" /><br />
+    Password: <input asp-for="Password" value="password"/><br />
     <input type="submit" value="Login" />
     @Html.AntiForgeryToken()
 </form>

@@ -2,20 +2,27 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
 using System.Threading.Tasks;
 using CPMS.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Task = System.Threading.Tasks.Task;
 
 namespace CPMS.DAL.Repositories
 {
+    /// <summary>
+    /// Generic base Repository define global actions for all repositories.
+    /// </summary>
+    /// <typeparam name="T">Type of class</typeparam>
     public abstract class BaseRepository<T> : IBaseRepository<T> where T : class
     {
         protected ManagementSystemContext _ctx;
         protected ILogger<T> _logger;
 
+        /// <summary>
+        /// Constructor injects dependencies, that are shared with all repositories
+        /// </summary>
+        /// <param name="ctx">DB Context</param>
+        /// <param name="logger">Logger</param>
         public BaseRepository(ManagementSystemContext ctx, ILogger<T> logger)
         {
             _ctx = ctx;
@@ -29,7 +36,6 @@ namespace CPMS.DAL.Repositories
 
         /// <summary>
         /// Method adds item of type T to the dbSet<T>.
-        /// There is used incrementation of ID by reflection.
         /// </summary>
         /// <param name="item">Item of type T</param>
         public void Add(T item)
@@ -44,6 +50,10 @@ namespace CPMS.DAL.Repositories
             }
         }
 
+        /// <summary>
+        /// Method update model T in DbSet<T>
+        /// </summary>
+        /// <param name="item">Item of type T</param>
         public void Update(T item)
         {
             try
@@ -56,6 +66,10 @@ namespace CPMS.DAL.Repositories
             }
         }
 
+        /// <summary>
+        /// Method remove model T from DbSet<T>
+        /// </summary>
+        /// <param name="item">Item of type T</param>
         public void Delete(T item)
         {
             try
@@ -68,6 +82,10 @@ namespace CPMS.DAL.Repositories
             }
         }
 
+        /// <summary>
+        /// Method get collection from DbSet<T>
+        /// </summary>
+        /// <returns>Collection of items type of T</returns>
         public async Task<IEnumerable<T>> GetAll()
         {
             try
@@ -82,6 +100,11 @@ namespace CPMS.DAL.Repositories
             return null;
         }
 
+        /// <summary>
+        /// Method returns single model from DbSet<T>
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Single item type of T</returns>
         public virtual async Task<T> GetByID(int id)
         {
             try
@@ -96,6 +119,11 @@ namespace CPMS.DAL.Repositories
             return null;
         }
 
+        /// <summary>
+        /// Method that provide LINQ query on DbSet<T>
+        /// </summary>
+        /// <param name="expression">LINQ where espression</param>
+        /// <returns>Collection of items type of T</returns>
         public async Task<IEnumerable<T>> FindByConditionAync(Expression<Func<T, bool>> expression)
         {
             try
@@ -110,6 +138,9 @@ namespace CPMS.DAL.Repositories
             return null;
         }
 
+        /// <summary>
+        /// Method that save changes on DbSet<T>
+        /// </summary>
         public void Save()
         {
             try
